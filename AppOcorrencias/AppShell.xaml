@@ -8,8 +8,7 @@
     Title="AppOcorrencias">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:pgNovaOcorrencia}"
-        Route="MainPage" />
+        Route="nova"
+        ContentTemplate="{DataTemplate views:pgNovaOcorrencia}" />
 
 </Shell>
