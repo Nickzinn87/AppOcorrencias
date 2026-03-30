@@ -8,6 +8,12 @@
     Title="AppOcorrencias">
 
     <ShellContent
+        Route="splash"
+        ContentTemplate="{DataTemplate local:MainPage}" />
+    <ShellContent
+        Route="sync"
+        ContentTemplate="{DataTemplate views:pgSincronizar}" />
+    <ShellContent
         Route="nova"
         ContentTemplate="{DataTemplate views:pgNovaOcorrencia}" />
 

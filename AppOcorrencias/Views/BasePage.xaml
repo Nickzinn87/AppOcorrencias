@@ -13,10 +13,11 @@
 
                     <!-- HEADER -->
                     <Grid
-                    HeightRequest="60"
-                    BackgroundColor="#121212"
-                    Padding="10"
-                    ColumnDefinitions="Auto,*,Auto">
+                        ZIndex="3"
+                        HeightRequest="60"
+                        BackgroundColor="#767DCA"
+                        Padding="10"
+                        ColumnDefinitions="Auto,*,Auto">
 
                         <ImageButton
                         Source="menu.png"
@@ -26,7 +27,7 @@
 
                         <Label
                         Grid.Column="1"
-                        Text="Estacione Legal"
+                        Text="Alexandre Rodrigues Filho"
                         TextColor="White"
                         FontSize="18"
                         FontAttributes="Bold"
@@ -41,8 +42,10 @@
 
                 <!-- OVERLAY -->
                 <Grid
-                IsVisible="{TemplateBinding BindingContext.MenuAberto}"
-                BackgroundColor="#80000000">
+                    ZIndex="1"
+                    Margin="0, 60, 0, 0"
+                    IsVisible="{TemplateBinding BindingContext.MenuAberto}"
+                    BackgroundColor="#80000000">
 
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer
@@ -52,15 +55,42 @@
 
                 <!-- MENU LATERAL -->
                 <Grid
-                WidthRequest="260"
-                BackgroundColor="#1E1E1E"
-                HorizontalOptions="Start"
-                IsVisible="{TemplateBinding BindingContext.MenuAberto}">
+                    ZIndex="2"
+                    WidthRequest="100"
+                    BackgroundColor="#767DCA"
+                    HorizontalOptions="Start"
+                    Margin="0, 60, 0, 0"
+                    IsVisible="{TemplateBinding BindingContext.MenuAberto}">
 
                     <VerticalStackLayout Padding="20">
                         <Label Text="Menu" TextColor="White" FontSize="18"/>
-                        <Button Text="Nova Ocorrência"/>
-                        <Button Text="Outra Página"/>
+                        <ImageButton
+                            Source="home.png"
+                            Margin="0, 15, 0, 15"
+                            WidthRequest="30"
+                            BackgroundColor="Transparent"
+                            Command="{TemplateBinding BindingContext.ToggleMenuCommand}"/>
+
+                        <ImageButton
+                            Source="nova.png"
+                            Margin="0, 15, 0, 15"
+                            WidthRequest="30"
+                            BackgroundColor="Transparent"
+                            Command="{TemplateBinding BindingContext.OpenNova}"/>
+
+                        <ImageButton
+                            Source="meus.png"
+                            Margin="0, 15, 0, 15"
+                            WidthRequest="30"
+                            BackgroundColor="Transparent"
+                            Command="{TemplateBinding BindingContext.ToggleMenuCommand}"/>
+
+                        <ImageButton
+                            Source="sync.png"
+                            Margin="0, 15, 0, 15"
+                            WidthRequest="30"
+                            BackgroundColor="Transparent"
+                            Command="{TemplateBinding BindingContext.OpenSync}"/>
                     </VerticalStackLayout>
 
                 </Grid>

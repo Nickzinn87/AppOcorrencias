@@ -1,24 +1,51 @@
-﻿namespace AppOcorrencias
+﻿using AppOcorrencias.Views;
+
+namespace AppOcorrencias
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
+            AnimateImage();
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        async void AnimateImage()
         {
-            count++;
+            await Task.Delay(2000);
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+            //await imgSplash.TranslateTo(20, 0, 50);
+            //await imgSplash.TranslateTo(-20, 0, 50);
+            //await imgSplash.TranslateTo(20, 0, 50);
+            //await imgSplash.TranslateTo(-20, 0, 50);
+            //await imgSplash.TranslateTo(20, 0, 50);
+            //await imgSplash.TranslateTo(-20, 0, 50);
+            //await imgSplash.TranslateTo(15, 0, 50);
+            //await imgSplash.TranslateTo(-15, 0, 50);
+            //await imgSplash.TranslateTo(10, 0, 50);
+            //await imgSplash.TranslateTo(-10, 0, 50);
+            //await imgSplash.TranslateTo(5, 0, 50);
+            //await imgSplash.TranslateTo(-5, 0, 50);
+            imgSplash.TranslationX = 0;
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+
+            await imgSplash.ScaleTo(2, 1000, Easing.Linear);
+            await imgSplash.ScaleTo(1, 1000, Easing.Linear);
+
+
+
+            imgSplash.ScaleTo(0.35, 1000, Easing.Linear);
+            imgSplash.TranslateTo(0, -105, 1000);
+
+            await Task.Delay(1000);
+
+            Application.Current.MainPage = new NavigationPage(new pgLogin());
+        }
+
+        private async void ContentPage_Loaded(object sender, EventArgs e)
+        {
+            await Task.Delay(3000); // Simulate a 3-second loading time
+            await Navigation.PushAsync(new MainPage());
         }
     }
 }

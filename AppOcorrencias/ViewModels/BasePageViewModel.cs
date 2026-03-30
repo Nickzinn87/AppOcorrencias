@@ -22,12 +22,24 @@ namespace AppOcorrencias.ViewModels
         }
 
         public ICommand ToggleMenuCommand { get; }
+        public ICommand OpenNova {  get; }
+        public ICommand OpenSync { get; }
 
         public BasePageViewModel()
         {
             ToggleMenuCommand = new Command(() =>
             {
                 MenuAberto = !MenuAberto;
+            });
+
+            OpenNova = new Command(async () =>  // ← async só aqui no lambda
+            {
+                await Shell.Current.GoToAsync("//nova");
+            });
+
+            OpenSync = new Command(async () =>  // ← async só aqui no lambda
+            {
+                await Shell.Current.GoToAsync("//sync");
             });
         }
     }

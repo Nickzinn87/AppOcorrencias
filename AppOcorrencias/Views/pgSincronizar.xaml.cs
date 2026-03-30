@@ -1,6 +1,6 @@
 namespace AppOcorrencias.Views;
 
-public partial class pgSincronizar : ContentPage
+public partial class pgSincronizar
 {
 	public pgSincronizar()
 	{
