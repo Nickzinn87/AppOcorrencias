@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http.Json;
+﻿using System.Net.Http.Json;
 using AppOcorrencias.Models;
 
 namespace AppOcorrencias.Services
@@ -12,8 +7,7 @@ namespace AppOcorrencias.Services
     {
         private readonly HttpClient _http;
 
-        // 🔗 URL da sua API
-        private const string BaseUrl = "https://guardsystem.infinityfree.me/";
+        private const string BaseUrl = "https://guardsystem.up.railway.app/api/";
 
         public ApiService()
         {
@@ -23,12 +17,12 @@ namespace AppOcorrencias.Services
             };
         }
 
-        // 🔹 Buscar usuários da web
+        // 🔹 Buscar usuários
         public async Task<List<Usuario>> GetUsuariosAsync()
         {
             try
             {
-                return await _http.GetFromJsonAsync<List<Usuario>>("usuarios");
+                return await _http.GetFromJsonAsync<List<Usuario>>("usuarios.php");
             }
             catch
             {
@@ -36,23 +30,26 @@ namespace AppOcorrencias.Services
             }
         }
 
-        // 🔹 Login via API
+        // 🔹 Login via PHP
         public async Task<Usuario> LoginAsync(string cpf, string senha)
         {
             try
             {
-                var response = await _http.PostAsJsonAsync("login", new
+                var content = new FormUrlEncodedContent(new[]
                 {
-                    CPF = cpf,
-                    Senha = senha
+                    new KeyValuePair<string, string>("cpf", cpf),
+                    new KeyValuePair<string, string>("senha", senha)
                 });
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<Usuario>();
-                }
+                var response = await _http.PostAsync("login.php", content);
 
-                return null;
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                var json = await response.Content.ReadAsStringAsync();
+
+                // ⚠️ depende do retorno do seu PHP
+                return System.Text.Json.JsonSerializer.Deserialize<Usuario>(json);
             }
             catch
             {

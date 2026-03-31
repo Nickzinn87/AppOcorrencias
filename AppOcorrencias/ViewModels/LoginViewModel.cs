@@ -1,4 +1,6 @@
-﻿using AppOcorrencias.Views;
+﻿using AppOcorrencias.Models;
+using AppOcorrencias.Services;
+using AppOcorrencias.Views;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -33,27 +35,29 @@ namespace AppOcorrencias.ViewModels
 
         public LoginViewModel()
         {
-            LoginCommand = new Command(RealizarLogin);
+            LoginCommand = new Command(async () => await RealizarLogin());
         }
 
-        private void RealizarLogin()
+        private async Task RealizarLogin()
         {
-            // Aqui vai sua lógica de login
             if (string.IsNullOrEmpty(CPF) || string.IsNullOrEmpty(Senha))
             {
-                App.Current.MainPage.DisplayAlert("Erro", "Preencha todos os campos", "OK");
+                await App.Current.MainPage.DisplayAlert("Erro", "Preencha todos os campos", "OK");
                 return;
             }
 
-            // Exemplo:
-            if (CPF == "123" && Senha == "123")
+            // 🔥 cria o usuário (mock por enquanto)
+            var usuario = new Usuario
             {
-                Application.Current.MainPage = new NavigationPage(new pgNovaOcorrencia());
-            }
-            else
-            {
-                App.Current.MainPage.DisplayAlert("Erro", "CPF ou senha inválidos", "OK");
-            }
+                CPF = CPF,
+                Senha = Senha
+            };
+
+            // 🔐 salva no singleton
+            UserSingleton.Instance.SetUsuario(usuario);
+
+            // 🚀 navegação
+            Application.Current.MainPage = new NavigationPage(new pgNovaOcorrencia());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

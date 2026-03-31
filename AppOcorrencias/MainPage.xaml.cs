@@ -39,7 +39,8 @@ namespace AppOcorrencias
 
             await Task.Delay(1000);
 
-            Application.Current.MainPage = new NavigationPage(new pgLogin());
+            //Application.Current.MainPage = new NavigationPage(new pgLogin());
+            await Shell.Current.GoToAsync("//login");
         }
 
         private async void ContentPage_Loaded(object sender, EventArgs e)

@@ -11,6 +11,9 @@
         Route="splash"
         ContentTemplate="{DataTemplate local:MainPage}" />
     <ShellContent
+        Route="login"
+        ContentTemplate="{DataTemplate views:pgLogin}" />
+    <ShellContent
         Route="sync"
         ContentTemplate="{DataTemplate views:pgSincronizar}" />
     <ShellContent
