@@ -1,4 +1,6 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AppOcorrencias.Models;
 
 namespace AppOcorrencias.Services
@@ -17,24 +19,13 @@ namespace AppOcorrencias.Services
             };
         }
 
-        // 🔹 Buscar usuários
-        public async Task<List<Usuario>> GetUsuariosAsync()
-        {
-            try
-            {
-                return await _http.GetFromJsonAsync<List<Usuario>>("usuarios.php");
-            }
-            catch
-            {
-                return new List<Usuario>();
-            }
-        }
-
-        // 🔹 Login via PHP
         public async Task<Usuario> LoginAsync(string cpf, string senha)
         {
             try
             {
+                cpf = cpf?.Trim();
+                senha = senha?.Trim();
+
                 var content = new FormUrlEncodedContent(new[]
                 {
                     new KeyValuePair<string, string>("cpf", cpf),
@@ -48,13 +39,44 @@ namespace AppOcorrencias.Services
 
                 var json = await response.Content.ReadAsStringAsync();
 
-                // ⚠️ depende do retorno do seu PHP
-                return System.Text.Json.JsonSerializer.Deserialize<Usuario>(json);
+                var result = JsonSerializer.Deserialize<LoginResponse>(json);
+
+                // 🔥 agora só verifica se veio usuário
+                if (result != null && result.usuario != null)
+                {
+                    return new Usuario
+                    {
+                        CPF = cpf,
+                        Senha = senha,
+                        Nome = result.usuario.nome
+                    };
+                }
+
+                return null;
             }
             catch
             {
                 return null;
             }
         }
+    }
+
+    // 🔥 ajustado para bater com o JSON real
+    public class LoginResponse
+    {
+        [JsonPropertyName("mensagem")]
+        public string Mensagem { get; set; }
+
+        [JsonPropertyName("usuario")]
+        public UsuarioApi usuario { get; set; }
+    }
+
+    public class UsuarioApi
+    {
+        [JsonPropertyName("id")]
+        public string id { get; set; }
+
+        [JsonPropertyName("nome")]
+        public string nome { get; set; }
     }
 }

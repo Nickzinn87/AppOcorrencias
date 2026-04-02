@@ -9,6 +9,8 @@ namespace AppOcorrencias.ViewModels
 {
     public class LoginViewModel : INotifyPropertyChanged
     {
+        private readonly ApiService _api;
+
         private string cpf;
         public string CPF
         {
@@ -35,6 +37,8 @@ namespace AppOcorrencias.ViewModels
 
         public LoginViewModel()
         {
+            _api = new ApiService();
+
             LoginCommand = new Command(async () => await RealizarLogin());
         }
 
@@ -46,18 +50,21 @@ namespace AppOcorrencias.ViewModels
                 return;
             }
 
-            // 🔥 cria o usuário (mock por enquanto)
-            var usuario = new Usuario
+            // 🌐 LOGIN VIA API
+            var usuario = await _api.LoginAsync(CPF, Senha);
+
+            if (usuario != null)
             {
-                CPF = CPF,
-                Senha = Senha
-            };
+                // 🔐 salva no singleton
+                UserSingleton.Instance.SetUsuario(usuario);
 
-            // 🔐 salva no singleton
-            UserSingleton.Instance.SetUsuario(usuario);
-
-            // 🚀 navegação
-            Application.Current.MainPage = new NavigationPage(new pgNovaOcorrencia());
+                // 🚀 navegação
+                Application.Current.MainPage = new NavigationPage(new pgNovaOcorrencia());
+            }
+            else
+            {
+                await App.Current.MainPage.DisplayAlert("Erro", "CPF ou senha inválidos", "OK");
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
