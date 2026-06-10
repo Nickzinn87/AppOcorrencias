@@ -9,7 +9,7 @@ namespace AppOcorrencias.Services
     {
         private readonly HttpClient _http;
 
-        private const string BaseUrl = "https://guardsystem.up.railway.app/api/";
+        private const string BaseUrl = "https://guardsystem.onrender.com/api/";
 
         public ApiService()
         {
@@ -47,7 +47,7 @@ namespace AppOcorrencias.Services
 
                 if (result != null && result.usuario != null)
                 {
-                    await App.Current.MainPage.DisplayAlert("RESPOSTA", json, "OK");
+                    await App.Current.MainPage.DisplayAlert("Login Realizado", "Usuario logado: " + result.usuario.nome, "OK");
 
                     return new Usuario
                     {
