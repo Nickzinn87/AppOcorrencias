@@ -1,9 +1,13 @@
-namespace AppOcorrencias.Views;
+using AppOcorrencias.ViewModels;
 
-public partial class pgNovaOcorrencia
+namespace AppOcorrencias.Views
 {
-    public pgNovaOcorrencia()
+    public partial class pgNovaOcorrencia : BasePage
     {
-        InitializeComponent();
+        public pgNovaOcorrencia()
+        {
+            InitializeComponent();
+            BindingContext = new NovaOcorrenciaViewModel();
+        }
     }
 }

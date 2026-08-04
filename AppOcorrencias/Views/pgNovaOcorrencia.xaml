@@ -5,11 +5,109 @@
     x:Class="AppOcorrencias.Views.pgNovaOcorrencia"
     BackgroundColor="#4850A3">
 
-    <VerticalStackLayout>
-        <Label
-            Text="AGORA FUNCIONA 🙌"
-            HorizontalOptions="Center"
-            VerticalOptions="Center"/>
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+
+            <Label
+                Text="Nova Ocorrência"
+                TextColor="White"
+                FontSize="22"
+                FontAttributes="Bold"/>
+
+            <Label Text="Tipo" TextColor="White"/>
+            <Entry
+                Text="{Binding Tipo}"
+                Placeholder="Ex: Furto, Perturbação, Acidente..."
+                BackgroundColor="White"/>
+
+            <Label Text="Data/Hora" TextColor="White"/>
+            <DatePicker Date="{Binding DataHora}" BackgroundColor="White"/>
+
+            <Label Text="Local" TextColor="White"/>
+            <Entry
+                Text="{Binding Local}"
+                Placeholder="Endereço ou ponto de referência"
+                BackgroundColor="White"/>
+
+            <Label Text="Descrição" TextColor="White"/>
+            <Editor
+                Text="{Binding Descricao}"
+                Placeholder="Descreva os detalhes da ocorrência"
+                AutoSize="TextChanges"
+                HeightRequest="100"
+                BackgroundColor="White"/>
+
+            <BoxView HeightRequest="1" Color="White" Margin="0,10"/>
+
+            <Label
+                Text="Envolvidos"
+                TextColor="White"
+                FontAttributes="Bold"
+                FontSize="18"/>
+
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="5">
+                <Entry
+                    Grid.Column="0"
+                    Placeholder="Nome"
+                    Text="{Binding NovoEnvolvidoNome}"
+                    BackgroundColor="White"/>
+                <Entry
+                    Grid.Column="1"
+                    Placeholder="Documento"
+                    Text="{Binding NovoEnvolvidoDocumento}"
+                    BackgroundColor="White"/>
+                <Entry
+                    Grid.Column="2"
+                    Placeholder="Papel"
+                    Text="{Binding NovoEnvolvidoPapel}"
+                    BackgroundColor="White"/>
+            </Grid>
+
+            <Button
+                Text="Adicionar Envolvido"
+                Command="{Binding AdicionarEnvolvidoCommand}"
+                BackgroundColor="#767DCA"
+                TextColor="White"/>
+
+            <CollectionView ItemsSource="{Binding Envolvidos}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid
+                            ColumnDefinitions="*,Auto"
+                            Padding="10"
+                            Margin="0,4"
+                            BackgroundColor="#3A4088">
+
+                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                <Label
+                                    Text="{Binding Nome}"
+                                    TextColor="White"
+                                    FontAttributes="Bold"/>
+                                <Label
+                                    Text="{Binding Papel}"
+                                    TextColor="#DDDDDD"
+                                    FontSize="12"/>
+                            </VerticalStackLayout>
+
+                            <Button
+                                Grid.Column="1"
+                                Text="Assinar"
+                                VerticalOptions="Center"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgNovaOcorrencia}}, Path=BindingContext.AssinarCommand}"
+                                CommandParameter="{Binding .}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button
+                Text="Salvar Ocorrência"
+                Command="{Binding SalvarOcorrenciaCommand}"
+                BackgroundColor="#767DCA"
+                TextColor="White"
+                Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
 
 </views:BasePage>

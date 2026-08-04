@@ -1,0 +1,46 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AppOcorrencias.Views.pgAssinatura"
+    BackgroundColor="#4850A3"
+    Title="Assinatura">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="15" RowSpacing="10">
+
+        <Label
+            Grid.Row="0"
+            x:Name="lblNomeSignatario"
+            FontSize="18"
+            FontAttributes="Bold"
+            TextColor="White"
+            HorizontalOptions="Center"/>
+
+        <Border
+            Grid.Row="1"
+            Stroke="White"
+            StrokeThickness="1"
+            BackgroundColor="White">
+            <GraphicsView
+                x:Name="CanvasAssinatura"
+                StartInteraction="OnStart"
+                DragInteraction="OnDrag"
+                EndInteraction="OnEnd"/>
+        </Border>
+
+        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Button
+                Grid.Column="0"
+                Text="Limpar"
+                Clicked="OnLimpar"
+                BackgroundColor="#3A4088"
+                TextColor="White"/>
+            <Button
+                Grid.Column="1"
+                Text="Confirmar"
+                Clicked="OnConfirmar"
+                BackgroundColor="#767DCA"
+                TextColor="White"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

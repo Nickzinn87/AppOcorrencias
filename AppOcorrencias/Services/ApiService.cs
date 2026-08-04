@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+﻿using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using AppOcorrencias.Models;
@@ -9,7 +9,7 @@ namespace AppOcorrencias.Services
     {
         private readonly HttpClient _http;
 
-        private const string BaseUrl = "https://guardsystem.up.railway.app/api/";
+        private const string BaseUrl = "https://guardsystem.onrender.com/api/";
 
         public ApiService()
         {
@@ -26,11 +26,15 @@ namespace AppOcorrencias.Services
                 cpf = cpf?.Trim();
                 senha = senha?.Trim();
 
-                var content = new FormUrlEncodedContent(new[]
-                {
-                    new KeyValuePair<string, string>("cpf", cpf),
-                    new KeyValuePair<string, string>("senha", senha)
-                });
+                var content = new StringContent(
+                    JsonSerializer.Serialize(new
+                    {
+                        cpf = cpf,
+                        senha = senha
+                    }),
+                    Encoding.UTF8,
+                    "application/json"
+                );
 
                 var response = await _http.PostAsync("login.php", content);
 
@@ -41,9 +45,10 @@ namespace AppOcorrencias.Services
 
                 var result = JsonSerializer.Deserialize<LoginResponse>(json);
 
-                // 🔥 agora só verifica se veio usuário
                 if (result != null && result.usuario != null)
                 {
+                    await App.Current.MainPage.DisplayAlert("Login Realizado", "Usuario logado: " + result.usuario.nome, "OK");
+
                     return new Usuario
                     {
                         CPF = cpf,
@@ -52,16 +57,22 @@ namespace AppOcorrencias.Services
                     };
                 }
 
+                // debug temporário
+                await App.Current.MainPage.DisplayAlert("RESPOSTA", json, "OK");
+
                 return null;
             }
-            catch
+            catch (Exception ex)
             {
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                    App.Current.MainPage.DisplayAlert("ERRO", ex.Message, "OK")
+                );
+
                 return null;
             }
         }
     }
 
-    // 🔥 ajustado para bater com o JSON real
     public class LoginResponse
     {
         [JsonPropertyName("mensagem")]
@@ -74,7 +85,7 @@ namespace AppOcorrencias.Services
     public class UsuarioApi
     {
         [JsonPropertyName("id")]
-        public string id { get; set; }
+        public int id { get; set; }
 
         [JsonPropertyName("nome")]
         public string nome { get; set; }
