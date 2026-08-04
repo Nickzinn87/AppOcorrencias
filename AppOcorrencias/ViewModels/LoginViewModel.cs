@@ -59,7 +59,8 @@ namespace AppOcorrencias.ViewModels
                 UserSingleton.Instance.SetUsuario(usuario);
 
                 // 🚀 navegação
-                Application.Current.MainPage = new NavigationPage(new pgNovaOcorrencia());
+                //Application.Current.MainPage = new NavigationPage(new pgNovaOcorrencia());
+                await Shell.Current.GoToAsync("//nova");
             }
             else
             {
