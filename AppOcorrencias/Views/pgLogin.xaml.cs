@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using AppOcorrencias.ViewModels;
+using System.Text;
 
 namespace AppOcorrencias.Views
 {
@@ -7,6 +8,7 @@ namespace AppOcorrencias.Views
         public pgLogin()
         {
             InitializeComponent();
+            BindingContext = new LoginViewModel();
         }
 
         void OnCPFUnfocused(object sender, FocusEventArgs e)
