@@ -1,0 +1,32 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="AppOcorrencias.Views.pgVisualizarAssinatura"
+    BackgroundColor="#000000CC">
+
+    <Grid RowDefinitions="Auto,*" Padding="15">
+
+        <Button
+            Grid.Row="0"
+            Text="Fechar"
+            Clicked="OnFechar"
+            BackgroundColor="#767DCA"
+            TextColor="White"
+            CornerRadius="10"
+            HorizontalOptions="End"
+            WidthRequest="100"/>
+
+        <Border
+            Grid.Row="1"
+            BackgroundColor="White"
+            StrokeShape="RoundRectangle 16"
+            Stroke="Transparent"
+            Padding="10"
+            Margin="0,15,0,0">
+            <Image
+                x:Name="imgAssinatura"
+                Aspect="AspectFit"/>
+        </Border>
+
+    </Grid>
+</ContentPage>

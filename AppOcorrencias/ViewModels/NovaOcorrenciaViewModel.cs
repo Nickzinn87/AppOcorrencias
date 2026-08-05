@@ -64,6 +64,7 @@ namespace AppOcorrencias.ViewModels
         public ICommand AdicionarEnvolvidoCommand { get; }
         public ICommand AssinarCommand { get; }
         public ICommand SalvarOcorrenciaCommand { get; }
+        public ICommand VerAssinaturaCommand { get; }
 
         public NovaOcorrenciaViewModel()
         {
@@ -95,6 +96,7 @@ namespace AppOcorrencias.ViewModels
                 if (pessoa == null) return;
 
                 var pagina = new pgAssinatura(pessoa.Nome);
+
                 pagina.AssinaturaConfirmada += async (base64) =>
                 {
                     var hash = CalcularHash(base64);
@@ -103,12 +105,9 @@ namespace AppOcorrencias.ViewModels
                     {
                         location = await Microsoft.Maui.Devices.Sensors.Geolocation.GetLastKnownLocationAsync();
                     }
-                    catch
-                    {
-                        // sem permissão ou GPS indisponível — segue sem coordenadas
-                    }
+                    catch { }
 
-                    await _db.SalvarEnvolvidoAsync(pessoa); // garante que já tem Id antes da assinatura referenciar
+                    await _db.SalvarEnvolvidoAsync(pessoa);
                     await _db.SalvarAssinaturaAsync(new Assinatura
                     {
                         PessoaEnvolvidaId = pessoa.Id,
@@ -118,15 +117,14 @@ namespace AppOcorrencias.ViewModels
                         Longitude = location?.Longitude
                     });
 
-                    pessoa.Assinado = true;
-                    await _db.SalvarEnvolvidoAsync(pessoa);
+                    var bytes = Convert.FromBase64String(base64);
 
-                    var index = Envolvidos.IndexOf(pessoa);
-                    if (index >= 0)
-                    {
-                        Envolvidos.RemoveAt(index);
-                        Envolvidos.Insert(index, pessoa);
-                    }
+                    // 🔹 agora que Assinado e AssinaturaPreview notificam mudança,
+                    // não precisa mais remover/reinserir o item na lista
+                    pessoa.AssinaturaPreview = ImageSource.FromStream(() => new MemoryStream(bytes));
+                    pessoa.Assinado = true;
+
+                    await _db.SalvarEnvolvidoAsync(pessoa);
                 };
 
                 await Shell.Current.Navigation.PushModalAsync(pagina);
@@ -146,8 +144,38 @@ namespace AppOcorrencias.ViewModels
                     await _db.SalvarEnvolvidoAsync(envolvido);
 
                 await Shell.Current.DisplayAlert("Sucesso", "Ocorrência salva localmente. Será enviada quando houver conexão.", "OK");
+
+                LimparFormulario(); // 🔹 reseta tudo antes de voltar
+
                 await Shell.Current.GoToAsync("..");
             });
+
+            VerAssinaturaCommand = new Command<PessoaEnvolvida>(async (pessoa) =>
+            {
+                if (pessoa?.AssinaturaPreview == null) return;
+
+                await Shell.Current.Navigation.PushModalAsync(
+                    new pgVisualizarAssinatura(pessoa.AssinaturaPreview));
+            });
+        }
+
+        void LimparFormulario()
+        {
+            _ocorrencia = new Ocorrencia
+            {
+                RegistradoPorCPF = UserSingleton.Instance.UsuarioLogado?.CPF
+            };
+
+            OnPropertyChanged(nameof(Tipo));
+            OnPropertyChanged(nameof(Local));
+            OnPropertyChanged(nameof(Descricao));
+            OnPropertyChanged(nameof(DataHora));
+
+            Envolvidos.Clear();
+
+            NovoEnvolvidoNome = string.Empty;
+            NovoEnvolvidoDocumento = string.Empty;
+            NovoEnvolvidoPapel = string.Empty;
         }
 
         static string CalcularHash(string base64)

@@ -6,106 +6,214 @@
     BackgroundColor="#4850A3">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="12">
+        <VerticalStackLayout Padding="20" Spacing="18">
 
-            <Label
-                Text="Nova Ocorrência"
-                TextColor="White"
-                FontSize="22"
-                FontAttributes="Bold"/>
+            <!-- CABEÇALHO -->
+            <VerticalStackLayout Spacing="2" Margin="0,10,0,0">
+                <Label
+                    Text="Nova Ocorrência"
+                    TextColor="White"
+                    FontSize="26"
+                    FontAttributes="Bold"/>
+                <Label
+                    Text="Preencha os dados abaixo"
+                    TextColor="#D9DBF5"
+                    FontSize="13"/>
+            </VerticalStackLayout>
 
-            <Label Text="Tipo" TextColor="White"/>
-            <Entry
-                Text="{Binding Tipo}"
-                Placeholder="Ex: Furto, Perturbação, Acidente..."
-                BackgroundColor="White"/>
+            <!-- CARD: DADOS DA OCORRÊNCIA -->
+            <Border
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 18"
+                Stroke="Transparent"
+                Padding="20">
 
-            <Label Text="Data/Hora" TextColor="White"/>
-            <DatePicker Date="{Binding DataHora}" BackgroundColor="White"/>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                </Border.Shadow>
 
-            <Label Text="Local" TextColor="White"/>
-            <Entry
-                Text="{Binding Local}"
-                Placeholder="Endereço ou ponto de referência"
-                BackgroundColor="White"/>
+                <VerticalStackLayout Spacing="4">
 
-            <Label Text="Descrição" TextColor="White"/>
-            <Editor
-                Text="{Binding Descricao}"
-                Placeholder="Descreva os detalhes da ocorrência"
-                AutoSize="TextChanges"
-                HeightRequest="100"
-                BackgroundColor="White"/>
+                    <Label Text="Tipo" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry
+                            Text="{Binding Tipo}"
+                            Placeholder="Ex: Furto, Perturbação, Acidente..."
+                            PlaceholderColor="#B7B9E0"
+                            TextColor="#2B2E4A"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"/>
+                    </Border>
 
-            <BoxView HeightRequest="1" Color="White" Margin="0,10"/>
+                    <Label Text="Data/Hora" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,14,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <DatePicker
+                            Date="{Binding DataHora}"
+                            TextColor="#2B2E4A"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"/>
+                    </Border>
 
-            <Label
-                Text="Envolvidos"
-                TextColor="White"
-                FontAttributes="Bold"
-                FontSize="18"/>
+                    <Label Text="Local" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,14,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry
+                            Text="{Binding Local}"
+                            Placeholder="Endereço ou ponto de referência"
+                            PlaceholderColor="#B7B9E0"
+                            TextColor="#2B2E4A"
+                            BackgroundColor="Transparent"
+                            VerticalOptions="Center"/>
+                    </Border>
 
-            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="5">
-                <Entry
-                    Grid.Column="0"
-                    Placeholder="Nome"
-                    Text="{Binding NovoEnvolvidoNome}"
-                    BackgroundColor="White"/>
-                <Entry
-                    Grid.Column="1"
-                    Placeholder="Documento"
-                    Text="{Binding NovoEnvolvidoDocumento}"
-                    BackgroundColor="White"/>
-                <Entry
-                    Grid.Column="2"
-                    Placeholder="Papel"
-                    Text="{Binding NovoEnvolvidoPapel}"
-                    BackgroundColor="White"/>
-            </Grid>
+                    <Label Text="Descrição" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,14,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,8">
+                        <Editor
+                            Text="{Binding Descricao}"
+                            Placeholder="Descreva os detalhes da ocorrência"
+                            PlaceholderColor="#B7B9E0"
+                            TextColor="#2B2E4A"
+                            BackgroundColor="Transparent"
+                            AutoSize="TextChanges"
+                            HeightRequest="100"/>
+                    </Border>
 
-            <Button
-                Text="Adicionar Envolvido"
-                Command="{Binding AdicionarEnvolvidoCommand}"
-                BackgroundColor="#767DCA"
-                TextColor="White"/>
+                </VerticalStackLayout>
+            </Border>
 
-            <CollectionView ItemsSource="{Binding Envolvidos}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid
-                            ColumnDefinitions="*,Auto"
-                            Padding="10"
-                            Margin="0,4"
-                            BackgroundColor="#3A4088">
+            <!-- CARD: ENVOLVIDOS -->
+            <Border
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 18"
+                Stroke="Transparent"
+                Padding="20">
 
-                            <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
-                                <Label
-                                    Text="{Binding Nome}"
-                                    TextColor="White"
-                                    FontAttributes="Bold"/>
-                                <Label
-                                    Text="{Binding Papel}"
-                                    TextColor="#DDDDDD"
-                                    FontSize="12"/>
-                            </VerticalStackLayout>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                </Border.Shadow>
 
-                            <Button
-                                Grid.Column="1"
-                                Text="Assinar"
-                                VerticalOptions="Center"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgNovaOcorrencia}}, Path=BindingContext.AssinarCommand}"
-                                CommandParameter="{Binding .}"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                <VerticalStackLayout Spacing="10">
+
+                    <Label
+                        Text="Envolvidos"
+                        TextColor="#4850A3"
+                        FontAttributes="Bold"
+                        FontSize="18"/>
+
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                        <Border Grid.Column="0" StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="10,0" HeightRequest="44">
+                            <Entry
+                                Placeholder="Nome"
+                                PlaceholderColor="#B7B9E0"
+                                TextColor="#2B2E4A"
+                                BackgroundColor="Transparent"
+                                Text="{Binding NovoEnvolvidoNome}"
+                                VerticalOptions="Center"/>
+                        </Border>
+                        <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="10,0" HeightRequest="44">
+                            <Entry
+                                Placeholder="Documento"
+                                PlaceholderColor="#B7B9E0"
+                                TextColor="#2B2E4A"
+                                BackgroundColor="Transparent"
+                                Text="{Binding NovoEnvolvidoDocumento}"
+                                VerticalOptions="Center"/>
+                        </Border>
+                        <Border Grid.Column="2" StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="10,0" HeightRequest="44">
+                            <Entry
+                                Placeholder="Papel"
+                                PlaceholderColor="#B7B9E0"
+                                TextColor="#2B2E4A"
+                                BackgroundColor="Transparent"
+                                Text="{Binding NovoEnvolvidoPapel}"
+                                VerticalOptions="Center"/>
+                        </Border>
+                    </Grid>
+
+                    <Button
+                        Text="Adicionar Envolvido"
+                        Command="{Binding AdicionarEnvolvidoCommand}"
+                        BackgroundColor="#767DCA"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="44"/>
+
+                    <CollectionView ItemsSource="{Binding Envolvidos}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    StrokeShape="RoundRectangle 12"
+                                    Stroke="#E4E5F5"
+                                    StrokeThickness="1"
+                                    BackgroundColor="#F5F6FC"
+                                    Padding="12"
+                                    Margin="0,4">
+
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+
+                                        <!-- PRÉVIA DA ASSINATURA -->
+                                        <Border
+    Grid.Column="0"
+    IsVisible="{Binding Assinado}"
+    WidthRequest="64"
+    HeightRequest="64"
+    StrokeShape="RoundRectangle 10"
+    Stroke="#DADCF0"
+    StrokeThickness="1"
+    BackgroundColor="White"
+    Padding="3">
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer
+            Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgNovaOcorrencia}}, Path=BindingContext.VerAssinaturaCommand}"
+            CommandParameter="{Binding .}"/>
+                                            </Border.GestureRecognizers>
+
+                                            <Image
+        Source="{Binding AssinaturaPreview}"
+        Aspect="AspectFit"/>
+                                        </Border>
+
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                            <Label
+                                                Text="{Binding Nome}"
+                                                TextColor="#2B2E4A"
+                                                FontAttributes="Bold"/>
+                                            <Label
+                                                Text="{Binding Papel}"
+                                                TextColor="#767DCA"
+                                                FontSize="12"/>
+                                        </VerticalStackLayout>
+
+                                        <Button
+                                            Grid.Column="2"
+                                            Text="Assinar"
+                                            VerticalOptions="Center"
+                                            BackgroundColor="#4850A3"
+                                            TextColor="White"
+                                            CornerRadius="8"
+                                            FontSize="13"
+                                            HeightRequest="38"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgNovaOcorrencia}}, Path=BindingContext.AssinarCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </Border>
 
             <Button
                 Text="Salvar Ocorrência"
                 Command="{Binding SalvarOcorrenciaCommand}"
                 BackgroundColor="#767DCA"
                 TextColor="White"
-                Margin="0,20,0,0"/>
+                FontAttributes="Bold"
+                CornerRadius="12"
+                HeightRequest="52"
+                Margin="0,4,0,24"/>
 
         </VerticalStackLayout>
     </ScrollView>

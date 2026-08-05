@@ -2,28 +2,114 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppOcorrencias.Views.pgLogin"
-             Title="pgLogin">
-    <StackLayout HorizontalOptions="FillAndExpand" BackgroundColor="#4850A3" Padding="30, 75, 30, 0">
+             Title="pgLogin"
+             BackgroundColor="#4850A3">
 
-        <Label Text="GuardSystem"
-               FontSize="Large"
-               FontFamily="Arial"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               Margin="0,0,0,100"/>
+    <ScrollView>
+        <Grid RowDefinitions="*,Auto,*" Padding="30">
 
-        <StackLayout HorizontalOptions="FillAndExpand">
+            <!-- CABEÇALHO -->
+            <VerticalStackLayout Grid.Row="0" VerticalOptions="End" Spacing="1" Margin="0,0,0,10">
+                <Image
+                    Source="logo.png"
+                    HeightRequest="200"
+                    WidthRequest="200"
+                    HorizontalOptions="Center"
+                    Aspect="AspectFit"/>
+                <Label
+                    Text="Registro de ocorrências em campo"
+                    FontSize="13"
+                    TextColor="#D9DBF5"
+                    HorizontalOptions="Center"/>
+            </VerticalStackLayout>
 
-            <Label Text="CPF:" FontSize="Subtitle" Margin="0,30,0,0"/>
-            <Entry Text="{Binding CPF}" />
+            <!-- CARD DE LOGIN -->
+            <Border
+                Grid.Row="1"
+                BackgroundColor="White"
+                StrokeShape="RoundRectangle 20"
+                Stroke="Transparent"
+                Padding="25,30"
+                VerticalOptions="Center">
 
-            <Label Text="Senha:" FontSize="Subtitle" Margin="0,30,0,0"/>
-            <Entry Text="{Binding Senha}" IsPassword="True"/>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,8" Radius="20" Opacity="0.25"/>
+                </Border.Shadow>
 
-            <Button Text="Entrar"
-                    Command="{Binding LoginCommand}"
-                    Margin="0, 50, 0, 0"
-                    MaximumWidthRequest="150"/>
-        </StackLayout>
-    </StackLayout>
+                <VerticalStackLayout Spacing="6">
+
+                    <Label
+                        Text="Bem-vindo"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="#4850A3"
+                        Margin="0,0,0,15"/>
+
+                    <!-- CPF -->
+                    <Label Text="CPF" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                    <Border
+                        StrokeShape="RoundRectangle 10"
+                        Stroke="#DADCF0"
+                        StrokeThickness="1.5"
+                        Padding="12,0"
+                        HeightRequest="48">
+                        <Entry
+    x:Name="entryCPF"
+    Text="{Binding CPF}"
+    Placeholder="000.000.000-00"
+    PlaceholderColor="#B7B9E0"
+    Keyboard="Numeric"
+    MaxLength="14"
+    IsTextPredictionEnabled="False"
+    IsSpellCheckEnabled="False"
+    Unfocused="OnCPFUnfocused"
+    BackgroundColor="Transparent"
+    TextColor="#2B2E4A"
+    VerticalOptions="Center"/>
+                    </Border>
+
+                    <!-- SENHA -->
+                    <Label Text="Senha" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,18,0,0"/>
+                    <Border
+                        StrokeShape="RoundRectangle 10"
+                        Stroke="#DADCF0"
+                        StrokeThickness="1.5"
+                        Padding="12,0"
+                        HeightRequest="48">
+                        <Entry
+                            Text="{Binding Senha}"
+                            Placeholder="Digite sua senha"
+                            PlaceholderColor="#B7B9E0"
+                            IsPassword="True"
+                            BackgroundColor="Transparent"
+                            TextColor="#2B2E4A"
+                            VerticalOptions="Center"/>
+                    </Border>
+
+                    <!-- BOTÃO -->
+                    <Button
+                        Text="Entrar"
+                        Command="{Binding LoginCommand}"
+                        BackgroundColor="#4850A3"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="50"
+                        Margin="0,25,0,0"/>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- RODAPÉ -->
+            <Label
+                Grid.Row="2"
+                Text="© GuardSystem"
+                FontSize="12"
+                TextColor="#B7B9E0"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                Margin="0,20,0,0"/>
+
+        </Grid>
+    </ScrollView>
 </ContentPage>

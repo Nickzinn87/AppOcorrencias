@@ -1,4 +1,4 @@
-using Microsoft.Maui.Graphics;
+﻿using Microsoft.Maui.Graphics;
 
 namespace AppOcorrencias.Views
 {
@@ -8,8 +8,8 @@ namespace AppOcorrencias.Views
         List<PointF> _tracoAtual;
         readonly SignatureDrawable _drawable;
 
-        // Evento que a NovaOcorrenciaViewModel escuta pra receber o base64
-        public event Action<string> AssinaturaConfirmada;
+        // 🔹 Func<string, Task> em vez de Action<string> — permite AWAIT de verdade
+        public event Func<string, Task> AssinaturaConfirmada;
 
         public pgAssinatura(string nomeSignatario)
         {
@@ -48,7 +48,7 @@ namespace AppOcorrencias.Views
         {
             if (_tracos.Count == 0)
             {
-                await DisplayAlert("Aten��o", "Colete a assinatura antes de confirmar.", "OK");
+                await DisplayAlert("Atenção", "Colete a assinatura antes de confirmar.", "OK");
                 return;
             }
 
@@ -58,13 +58,14 @@ namespace AppOcorrencias.Views
             await stream.CopyToAsync(memoryStream);
             var base64 = Convert.ToBase64String(memoryStream.ToArray());
 
-            AssinaturaConfirmada?.Invoke(base64);
+            // 🔹 espera o handler (salvar no banco + gerar prévia) terminar ANTES de fechar a modal
+            if (AssinaturaConfirmada != null)
+                await AssinaturaConfirmada.Invoke(base64);
 
             await Navigation.PopModalAsync();
         }
     }
 
-    // Classe auxiliar que desenha os tra�os no GraphicsView
     public class SignatureDrawable : IDrawable
     {
         readonly List<List<PointF>> _tracos;
@@ -76,6 +77,11 @@ namespace AppOcorrencias.Views
 
         public void Draw(ICanvas canvas, RectF dirtyRect)
         {
+            // 🔹 pinta o fundo branco ANTES dos traços — sem isso, a área "vazia"
+            // fica transparente e o CaptureAsync converte pra preto na exportação
+            canvas.FillColor = Colors.White;
+            canvas.FillRectangle(dirtyRect);
+
             canvas.StrokeColor = Colors.Black;
             canvas.StrokeSize = 3;
 

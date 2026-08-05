@@ -1,19 +1,39 @@
-﻿// Models/PessoaEnvolvida.cs
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using SQLite;
 
-namespace AppOcorrencias.Models;
-
-public class PessoaEnvolvida
+namespace AppOcorrencias.Models
 {
-    [PrimaryKey, AutoIncrement]
-    public int Id { get; set; }
+    public class PessoaEnvolvida : INotifyPropertyChanged
+    {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
 
-    [Indexed]
-    public string OcorrenciaUid { get; set; } = string.Empty;
+        [Indexed]
+        public string OcorrenciaUid { get; set; }
 
-    public string Nome { get; set; } = string.Empty;
-    public string Documento { get; set; } = string.Empty;
-    public string Papel { get; set; } = string.Empty; // Vítima, Testemunha, Policial, etc.
+        public string Nome { get; set; }
+        public string Documento { get; set; }
+        public string Papel { get; set; }
 
-    public bool Assinado { get; set; } = false;
+        bool _assinado;
+        public bool Assinado
+        {
+            get => _assinado;
+            set { _assinado = value; OnPropertyChanged(); }
+        }
+
+        // 🔹 usado só em memória pra exibir a prévia (não salva no banco)
+        ImageSource _assinaturaPreview;
+        [Ignore]
+        public ImageSource AssinaturaPreview
+        {
+            get => _assinaturaPreview;
+            set { _assinaturaPreview = value; OnPropertyChanged(); }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged([CallerMemberName] string nome = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nome));
+    }
 }
