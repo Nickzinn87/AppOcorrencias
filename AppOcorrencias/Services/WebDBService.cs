@@ -25,17 +25,16 @@ namespace AppOcorrencias.Services
         {
             if (_initialized) return;
 
-            // 🔹 garante que só uma chamada por vez cria as tabelas,
-            // mesmo se vários métodos chamarem InitAsync ao mesmo tempo
             await _initLock.WaitAsync();
             try
             {
-                if (_initialized) return; // checa de novo, outra thread pode ter terminado enquanto esperava
+                if (_initialized) return;
 
                 await _database.CreateTableAsync<Usuario>();
                 await _database.CreateTableAsync<Ocorrencia>();
                 await _database.CreateTableAsync<PessoaEnvolvida>();
                 await _database.CreateTableAsync<Assinatura>();
+                await _database.CreateTableAsync<Adolescente>(); // 🔹 nova tabela
 
                 _initialized = true;
             }
@@ -145,6 +144,25 @@ namespace AppOcorrencias.Services
             return await _database.Table<Assinatura>()
                                   .Where(a => a.PessoaEnvolvidaId == pessoaEnvolvidaId)
                                   .FirstOrDefaultAsync();
+        }
+
+        // ================== ADOLESCENTES ==================
+
+        public async Task<int> SalvarAdolescenteAsync(Adolescente adolescente)
+        {
+            await InitAsync();
+            if (adolescente.Id == 0)
+                return await _database.InsertAsync(adolescente);
+
+            return await _database.UpdateAsync(adolescente);
+        }
+
+        public async Task<List<Adolescente>> GetAdolescentesAsync(string ocorrenciaUid)
+        {
+            await InitAsync();
+            return await _database.Table<Adolescente>()
+                                  .Where(a => a.OcorrenciaUid == ocorrenciaUid)
+                                  .ToListAsync();
         }
     }
 }

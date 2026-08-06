@@ -78,6 +78,15 @@
 	  <MauiXaml Update="Views\pgNovaOcorrencia.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\pgOcorrenciaPasso1.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\pgOcorrenciaPasso2.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\pgOcorrenciaPasso3.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\pgSincronizar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -7,7 +7,7 @@ namespace AppOcorrencias.Views
         public pgNovaOcorrencia()
         {
             InitializeComponent();
-            BindingContext = new NovaOcorrenciaViewModel();
+            //BindingContext = new NovaOcorrenciaViewModel();
         }
     }
 }

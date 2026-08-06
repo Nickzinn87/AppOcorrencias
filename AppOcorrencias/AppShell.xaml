@@ -18,6 +18,6 @@
         ContentTemplate="{DataTemplate views:pgSincronizar}" />
     <ShellContent
         Route="nova"
-        ContentTemplate="{DataTemplate views:pgNovaOcorrencia}" />
+        ContentTemplate="{DataTemplate views:pgOcorrenciaPasso1}" />
 
 </Shell>

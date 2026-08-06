@@ -1,0 +1,121 @@
+<views:BasePage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AppOcorrencias.Views"
+    x:Class="AppOcorrencias.Views.pgOcorrenciaPasso2"
+    BackgroundColor="#4850A3">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <VerticalStackLayout Spacing="2" Margin="0,10,0,0">
+                <Label Text="Nova Ocorrência" TextColor="White" FontSize="26" FontAttributes="Bold"/>
+                <Label Text="Passo 2 de 6 — Adolescente(s)" TextColor="#D9DBF5" FontSize="13"/>
+            </VerticalStackLayout>
+
+            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="4">
+
+                    <Label Text="Escola" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding Escola}" Placeholder="Escola do(s) adolescente(s)" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    </Border>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="10">
+
+                    <Label Text="Adolescente(s)" TextColor="#4850A3" FontAttributes="Bold" FontSize="18"/>
+
+                    <Label Text="Nome" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding NovoNome}" Placeholder="Nome do adolescente" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Text="Data de Nascimento" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <DatePicker Date="{Binding NovaDataNascimento}" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    </Border>
+
+                    <Button
+                        Text="Adicionar Adolescente"
+                        Command="{Binding AdicionarAdolescenteCommand}"
+                        BackgroundColor="#767DCA"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        CornerRadius="10"
+                        HeightRequest="44"
+                        Margin="0,10,0,0"/>
+
+                    <CollectionView ItemsSource="{Binding Adolescentes}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    StrokeShape="RoundRectangle 12"
+                                    Stroke="#E4E5F5"
+                                    StrokeThickness="1"
+                                    BackgroundColor="#F5F6FC"
+                                    Padding="12"
+                                    Margin="0,4">
+
+                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+
+                                        <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                                            <Label Text="{Binding Nome}" TextColor="#2B2E4A" FontAttributes="Bold"/>
+                                            <Label Text="{Binding DataNascimento, StringFormat='Nascimento: {0:dd/MM/yyyy}'}" TextColor="#767DCA" FontSize="12"/>
+                                        </VerticalStackLayout>
+
+                                        <Button
+                                            Grid.Column="1"
+                                            Text="Remover"
+                                            VerticalOptions="Center"
+                                            BackgroundColor="#C0392B"
+                                            TextColor="White"
+                                            CornerRadius="8"
+                                            FontSize="13"
+                                            HeightRequest="38"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgOcorrenciaPasso2}}, Path=BindingContext.RemoverAdolescenteCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,24">
+                <Button
+                    Grid.Column="0"
+                    Text="← Voltar"
+                    Command="{Binding VoltarCommand}"
+                    BackgroundColor="#3A4088"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="52"/>
+                <Button
+                    Grid.Column="1"
+                    Text="Próximo →"
+                    Command="{Binding ProximoCommand}"
+                    BackgroundColor="#767DCA"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="52"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BasePage>
