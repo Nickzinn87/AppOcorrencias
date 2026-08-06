@@ -55,6 +55,7 @@
                         HeightRequest="48">
                         <Entry
     x:Name="entryCPF"
+    StyleId="cpf"
     Text="{Binding CPF}"
     Placeholder="000.000.000-00"
     PlaceholderColor="#B7B9E0"
@@ -62,7 +63,7 @@
     MaxLength="14"
     IsTextPredictionEnabled="False"
     IsSpellCheckEnabled="False"
-    Unfocused="OnCPFUnfocused"
+    TextChanged="OnCPFTextChanged"
     BackgroundColor="Transparent"
     TextColor="#2B2E4A"
     VerticalOptions="Center"/>

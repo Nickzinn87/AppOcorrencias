@@ -1,4 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AppOcorrencias;
+using Microsoft.Maui.Handlers;
+#if ANDROID
+using Android.Views;
+using AppOcorrencias.Platforms.Android;
+#endif
 
 namespace AppOcorrencias
 {
@@ -12,11 +17,25 @@ namespace AppOcorrencias
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-#if DEBUG
-    		builder.Logging.AddDebug();
+#if ANDROID
+            EntryHandler.Mapper.AppendToMapping("NoAutofill", (handler, view) =>
+            {
+                handler.PlatformView.ImportantForAutofill = ImportantForAutofill.No;
+            });
+
+            EntryHandler.Mapper.AppendToMapping("CpfMask", (handler, view) =>
+            {
+                if (view is Entry entry && entry.StyleId == "cpf")
+                {
+                    if (handler.PlatformView.Tag?.ToString() == "cpf-watcher-added")
+                        return;
+
+                    handler.PlatformView.AddTextChangedListener(new CpfTextWatcher(handler.PlatformView));
+                    handler.PlatformView.Tag = new Java.Lang.String("cpf-watcher-added");
+                }
+            });
 #endif
 
             return builder.Build();

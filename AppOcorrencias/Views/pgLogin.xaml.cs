@@ -1,20 +1,43 @@
-﻿using AppOcorrencias.ViewModels;
-using System.Text;
+﻿using System.Text;
+using AppOcorrencias.ViewModels;
 
 namespace AppOcorrencias.Views
 {
     public partial class pgLogin : ContentPage
     {
+        bool _atualizandoTexto = false;
+
         public pgLogin()
         {
             InitializeComponent();
             BindingContext = new LoginViewModel();
         }
 
-        void OnCPFUnfocused(object sender, FocusEventArgs e)
+        void OnCPFTextChanged(object sender, TextChangedEventArgs e)
         {
+            // 🔹 no Android a formatação já é feita nativamente pelo CpfTextWatcher
+            // (evita crash de composição de teclado/IME) — aqui só cobre Windows/iOS/Mac
+#if ANDROID
+            return;
+#else
+            if (_atualizandoTexto) return;
+
             var entry = (Entry)sender;
-            entry.Text = FormatarCPF(entry.Text);
+            var textoFormatado = FormatarCPF(e.NewTextValue);
+
+            if (textoFormatado == entry.Text) return;
+
+            _atualizandoTexto = true;
+            entry.Text = textoFormatado;
+
+            try
+            {
+                entry.CursorPosition = textoFormatado.Length;
+            }
+            catch { }
+
+            _atualizandoTexto = false;
+#endif
         }
 
         string FormatarCPF(string valor)

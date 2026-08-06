@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using SQLite;
 using AppOcorrencias.Models;
@@ -12,6 +13,7 @@ namespace AppOcorrencias.Services
     {
         private readonly SQLiteAsyncConnection _database;
         private bool _initialized = false;
+        private readonly SemaphoreSlim _initLock = new SemaphoreSlim(1, 1);
 
         public WebDBService()
         {
@@ -22,11 +24,25 @@ namespace AppOcorrencias.Services
         private async Task InitAsync()
         {
             if (_initialized) return;
-            await _database.CreateTableAsync<Usuario>();
-            await _database.CreateTableAsync<Ocorrencia>();
-            await _database.CreateTableAsync<PessoaEnvolvida>();
-            await _database.CreateTableAsync<Assinatura>();
-            _initialized = true;
+
+            // 🔹 garante que só uma chamada por vez cria as tabelas,
+            // mesmo se vários métodos chamarem InitAsync ao mesmo tempo
+            await _initLock.WaitAsync();
+            try
+            {
+                if (_initialized) return; // checa de novo, outra thread pode ter terminado enquanto esperava
+
+                await _database.CreateTableAsync<Usuario>();
+                await _database.CreateTableAsync<Ocorrencia>();
+                await _database.CreateTableAsync<PessoaEnvolvida>();
+                await _database.CreateTableAsync<Assinatura>();
+
+                _initialized = true;
+            }
+            finally
+            {
+                _initLock.Release();
+            }
         }
 
         // 🔹 Inserir usuário
@@ -39,6 +55,7 @@ namespace AppOcorrencias.Services
         // 🔹 Buscar usuário por CPF
         public async Task<Usuario> GetUsuarioPorCPFAsync(string cpf)
         {
+            await InitAsync();
             return await _database.Table<Usuario>()
                                   .Where(u => u.CPF == cpf)
                                   .FirstOrDefaultAsync();
@@ -47,6 +64,7 @@ namespace AppOcorrencias.Services
         // 🔹 Login
         public async Task<Usuario> LoginAsync(string cpf, string senha)
         {
+            await InitAsync();
             return await _database.Table<Usuario>()
                                   .Where(u => u.CPF == cpf && u.Senha == senha)
                                   .FirstOrDefaultAsync();
@@ -55,35 +73,37 @@ namespace AppOcorrencias.Services
         // 🔹 Listar todos
         public async Task<List<Usuario>> GetUsuariosAsync()
         {
+            await InitAsync();
             return await _database.Table<Usuario>().ToListAsync();
         }
 
         // 🔹 Deletar
         public async Task<int> DeletarUsuarioAsync(Usuario usuario)
         {
+            await InitAsync();
             return await _database.DeleteAsync(usuario);
         }
 
         // ================== OCORRÊNCIAS ==================
 
-        // 🔹 Salvar ocorrência (insere se Id == 0, senão atualiza)
         public async Task<int> SalvarOcorrenciaAsync(Ocorrencia ocorrencia)
         {
+            await InitAsync();
             if (ocorrencia.Id == 0)
                 return await _database.InsertAsync(ocorrencia);
 
             return await _database.UpdateAsync(ocorrencia);
         }
 
-        // 🔹 Listar ocorrências
         public async Task<List<Ocorrencia>> GetOcorrenciasAsync()
         {
+            await InitAsync();
             return await _database.Table<Ocorrencia>().ToListAsync();
         }
 
-        // 🔹 Buscar ocorrência por Uid
         public async Task<Ocorrencia> GetOcorrenciaPorUidAsync(string uid)
         {
+            await InitAsync();
             return await _database.Table<Ocorrencia>()
                                   .Where(o => o.Uid == uid)
                                   .FirstOrDefaultAsync();
@@ -91,18 +111,18 @@ namespace AppOcorrencias.Services
 
         // ================== ENVOLVIDOS ==================
 
-        // 🔹 Salvar envolvido (insere se Id == 0, senão atualiza)
         public async Task<int> SalvarEnvolvidoAsync(PessoaEnvolvida pessoa)
         {
+            await InitAsync();
             if (pessoa.Id == 0)
                 return await _database.InsertAsync(pessoa);
 
             return await _database.UpdateAsync(pessoa);
         }
 
-        // 🔹 Listar envolvidos de uma ocorrência
         public async Task<List<PessoaEnvolvida>> GetEnvolvidosAsync(string ocorrenciaUid)
         {
+            await InitAsync();
             return await _database.Table<PessoaEnvolvida>()
                                   .Where(p => p.OcorrenciaUid == ocorrenciaUid)
                                   .ToListAsync();
@@ -110,18 +130,18 @@ namespace AppOcorrencias.Services
 
         // ================== ASSINATURAS ==================
 
-        // 🔹 Salvar assinatura (insere se Id == 0, senão atualiza)
         public async Task<int> SalvarAssinaturaAsync(Assinatura assinatura)
         {
+            await InitAsync();
             if (assinatura.Id == 0)
                 return await _database.InsertAsync(assinatura);
 
             return await _database.UpdateAsync(assinatura);
         }
 
-        // 🔹 Buscar assinatura de um envolvido
         public async Task<Assinatura> GetAssinaturaPorEnvolvidoAsync(int pessoaEnvolvidaId)
         {
+            await InitAsync();
             return await _database.Table<Assinatura>()
                                   .Where(a => a.PessoaEnvolvidaId == pessoaEnvolvidaId)
                                   .FirstOrDefaultAsync();
