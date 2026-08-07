@@ -1,9 +1,13 @@
-namespace AppOcorrencias.Views;
+using AppOcorrencias.ViewModels;
 
-public partial class pgOcorrenciaPasso3 : ContentPage
+namespace AppOcorrencias.Views
 {
-	public pgOcorrenciaPasso3()
-	{
-		InitializeComponent();
-	}
+    public partial class pgOcorrenciaPasso3 : BasePage
+    {
+        public pgOcorrenciaPasso3()
+        {
+            InitializeComponent();
+            BindingContext = new OcorrenciaPasso3ViewModel();
+        }
+    }
 }

@@ -26,6 +26,13 @@ namespace AppOcorrencias.Models
             set { _dataNascimento = value; OnPropertyChanged(); }
         }
 
+        string _escola;
+        public string Escola
+        {
+            get => _escola;
+            set { _escola = value; OnPropertyChanged(); }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged([CallerMemberName] string nome = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nome));

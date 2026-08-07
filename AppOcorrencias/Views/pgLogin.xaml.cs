@@ -11,6 +11,7 @@ namespace AppOcorrencias.Views
         {
             InitializeComponent();
             BindingContext = new LoginViewModel();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         void OnCPFTextChanged(object sender, TextChangedEventArgs e)

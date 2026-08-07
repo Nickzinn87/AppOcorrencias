@@ -9,7 +9,7 @@ namespace AppOcorrencias.Services
     {
         private readonly HttpClient _http;
 
-        private const string BaseUrl = "https://guardsystem.onrender.com/api/";
+        private const string BaseUrl = "https://guardsystem.hro.dev.br/api/";
 
         public ApiService()
         {

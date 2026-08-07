@@ -8,5 +8,6 @@ public partial class BasePage : ContentPage
     {
         InitializeComponent();
         BindingContext = new BasePageViewModel();
+        NavigationPage.SetHasNavigationBar(this, false);
     }
 }

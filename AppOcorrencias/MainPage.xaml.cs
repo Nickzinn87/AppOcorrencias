@@ -8,6 +8,7 @@ namespace AppOcorrencias
         {
             InitializeComponent();
             AnimateImage();
+            NavigationPage.SetHasNavigationBar(this, false);
         }
 
         async void AnimateImage()

@@ -1,0 +1,123 @@
+<views:BasePage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AppOcorrencias.Views"
+    x:Class="AppOcorrencias.Views.pgOcorrenciaPasso5"
+    BackgroundColor="#4850A3">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <VerticalStackLayout Spacing="2" Margin="0,10,0,0">
+                <Label Text="Nova Ocorrência" TextColor="White" FontSize="26" FontAttributes="Bold"/>
+                <Label Text="Passo 5 de 5 — Histórico e Assinaturas" TextColor="#D9DBF5" FontSize="13"/>
+            </VerticalStackLayout>
+
+            <!-- CARD: HISTÓRICO -->
+            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Histórico" TextColor="#4850A3" FontAttributes="Bold" FontSize="18" Margin="0,0,0,6"/>
+
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,8">
+                        <Editor
+                            Text="{Binding Historico}"
+                            Placeholder="Descreva o histórico da ocorrência"
+                            PlaceholderColor="#B7B9E0"
+                            TextColor="#2B2E4A"
+                            BackgroundColor="Transparent"
+                            AutoSize="TextChanges"
+                            HeightRequest="180"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- CARD: ASSINATURAS -->
+            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Assinaturas" TextColor="#4850A3" FontAttributes="Bold" FontSize="18"/>
+
+                    <CollectionView ItemsSource="{Binding Assinantes}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    StrokeShape="RoundRectangle 12"
+                                    Stroke="#E4E5F5"
+                                    StrokeThickness="1"
+                                    BackgroundColor="#F5F6FC"
+                                    Padding="12"
+                                    Margin="0,4">
+
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+
+                                        <Border
+                                            Grid.Column="0"
+                                            IsVisible="{Binding Assinado}"
+                                            WidthRequest="64"
+                                            HeightRequest="64"
+                                            StrokeShape="RoundRectangle 10"
+                                            Stroke="#DADCF0"
+                                            StrokeThickness="1"
+                                            BackgroundColor="White"
+                                            Padding="3">
+                                            <Image Source="{Binding AssinaturaPreview}" Aspect="AspectFit"/>
+                                        </Border>
+
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                            <Label Text="{Binding Papel}" TextColor="#2B2E4A" FontAttributes="Bold"/>
+                                            <Label
+                                                Text="{Binding Assinado, StringFormat='{0}'}"
+                                                TextColor="#767DCA"
+                                                FontSize="12"/>
+                                        </VerticalStackLayout>
+
+                                        <Button
+                                            Grid.Column="2"
+                                            Text="Assinar"
+                                            VerticalOptions="Center"
+                                            BackgroundColor="#4850A3"
+                                            TextColor="White"
+                                            CornerRadius="8"
+                                            FontSize="13"
+                                            HeightRequest="38"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgOcorrenciaPasso5}}, Path=BindingContext.AssinarCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,24">
+                <Button
+                    Grid.Column="0"
+                    Text="← Voltar"
+                    Command="{Binding VoltarCommand}"
+                    BackgroundColor="#3A4088"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="52"/>
+                <Button
+                    Grid.Column="1"
+                    Text="Concluir ✓"
+                    Command="{Binding ConcluirCommand}"
+                    BackgroundColor="#767DCA"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="52"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BasePage>

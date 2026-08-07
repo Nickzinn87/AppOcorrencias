@@ -1,0 +1,121 @@
+<views:BasePage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AppOcorrencias.Views"
+    x:Class="AppOcorrencias.Views.pgOcorrenciaPasso4"
+    BackgroundColor="#4850A3">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <VerticalStackLayout Spacing="2" Margin="0,10,0,0">
+                <Label Text="Nova Ocorrência" TextColor="White" FontSize="26" FontAttributes="Bold"/>
+                <Label Text="Passo 4 de 5 — Endereços" TextColor="#D9DBF5" FontSize="13"/>
+            </VerticalStackLayout>
+
+            <!-- CARD: ENDEREÇO RESIDENCIAL -->
+            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Endereço Residencial" TextColor="#4850A3" FontAttributes="Bold" FontSize="18" Margin="0,0,0,6"/>
+
+                    <Label Text="Endereço" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding EnderecoResidencial}" Placeholder="Rua, avenida..." PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,0">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="N°" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                            <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                                <Entry Text="{Binding EnderecoResidencialNumero}" Placeholder="N°" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center" Keyboard="Numeric"/>
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Bairro" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                            <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                                <Entry Text="{Binding BairroResidencial}" Placeholder="Bairro" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label Text="Complemento" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding ComplementoResidencial}" Placeholder="Complemento" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Text="Fone" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding FoneResidencial}" Placeholder="Telefone" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center" Keyboard="Telephone"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- CARD: ENDEREÇO COMERCIAL -->
+            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Endereço Comercial" TextColor="#4850A3" FontAttributes="Bold" FontSize="18" Margin="0,0,0,6"/>
+
+                    <Label Text="Endereço" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding EnderecoComercial}" Placeholder="Rua, avenida..." PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,0">
+                        <VerticalStackLayout Grid.Column="0">
+                            <Label Text="N°" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                            <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                                <Entry Text="{Binding EnderecoComercialNumero}" Placeholder="N°" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center" Keyboard="Numeric"/>
+                            </Border>
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Bairro" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                            <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                                <Entry Text="{Binding BairroComercial}" Placeholder="Bairro" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                            </Border>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Label Text="Complemento" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding ComplementoComercial}" Placeholder="Complemento" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    </Border>
+
+                    <Label Text="Fone" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding FoneComercial}" Placeholder="Telefone" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center" Keyboard="Telephone"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,24">
+                <Button
+                    Grid.Column="0"
+                    Text="← Voltar"
+                    Command="{Binding VoltarCommand}"
+                    BackgroundColor="#3A4088"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="52"/>
+                <Button
+                    Grid.Column="1"
+                    Text="Próximo →"
+                    Command="{Binding ProximoCommand}"
+                    BackgroundColor="#767DCA"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="12"
+                    HeightRequest="52"/>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BasePage>

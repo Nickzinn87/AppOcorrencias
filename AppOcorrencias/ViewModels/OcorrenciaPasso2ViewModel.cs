@@ -8,12 +8,6 @@ namespace AppOcorrencias.ViewModels
 {
     public class OcorrenciaPasso2ViewModel : BasePageViewModel
     {
-        public string Escola
-        {
-            get => NovaOcorrenciaSingleton.Instance.OcorrenciaAtual.Escola;
-            set { NovaOcorrenciaSingleton.Instance.OcorrenciaAtual.Escola = value; OnPropertyChanged(); }
-        }
-
         public ObservableCollection<Adolescente> Adolescentes { get; }
 
         string _novoNome;
@@ -30,6 +24,13 @@ namespace AppOcorrencias.ViewModels
             set { _novaDataNascimento = value; OnPropertyChanged(); }
         }
 
+        string _novaEscola;
+        public string NovaEscola
+        {
+            get => _novaEscola;
+            set { _novaEscola = value; OnPropertyChanged(); }
+        }
+
         public ICommand AdicionarAdolescenteCommand { get; }
         public ICommand RemoverAdolescenteCommand { get; }
         public ICommand VoltarCommand { get; }
@@ -37,7 +38,6 @@ namespace AppOcorrencias.ViewModels
 
         public OcorrenciaPasso2ViewModel()
         {
-            // 🔹 carrega o que já estava salvo no singleton (caso volte de outro passo)
             Adolescentes = new ObservableCollection<Adolescente>(NovaOcorrenciaSingleton.Instance.Adolescentes);
 
             AdicionarAdolescenteCommand = new Command(() =>
@@ -49,7 +49,8 @@ namespace AppOcorrencias.ViewModels
                 {
                     OcorrenciaUid = NovaOcorrenciaSingleton.Instance.OcorrenciaAtual.Uid,
                     Nome = NovoNome,
-                    DataNascimento = NovaDataNascimento
+                    DataNascimento = NovaDataNascimento,
+                    Escola = NovaEscola
                 };
 
                 Adolescentes.Add(adolescente);
@@ -57,6 +58,8 @@ namespace AppOcorrencias.ViewModels
 
                 NovoNome = string.Empty;
                 NovaDataNascimento = DateTime.Now;
+                // 🔹 NÃO limpa NovaEscola — mantém pré-preenchido pro próximo adolescente,
+                // já que normalmente estudam juntos, mas continua editável
             });
 
             RemoverAdolescenteCommand = new Command<Adolescente>((adolescente) =>

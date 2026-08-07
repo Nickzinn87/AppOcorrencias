@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using AppOcorrencias.Services;
 
 namespace AppOcorrencias.ViewModels
 {
     public class BasePageViewModel : BindableObject
     {
         bool _menuAberto;
-
         public bool MenuAberto
         {
             get => _menuAberto;
@@ -21,8 +21,11 @@ namespace AppOcorrencias.ViewModels
             }
         }
 
+        // 🔹 puxa o nome direto do usuário logado no singleton
+        public string NomeUsuario => UserSingleton.Instance.UsuarioLogado?.Nome ?? "Usuário";
+
         public ICommand ToggleMenuCommand { get; }
-        public ICommand OpenNova {  get; }
+        public ICommand OpenNova { get; }
         public ICommand OpenSync { get; }
 
         public BasePageViewModel()
@@ -31,13 +34,11 @@ namespace AppOcorrencias.ViewModels
             {
                 MenuAberto = !MenuAberto;
             });
-
-            OpenNova = new Command(async () =>  // ← async só aqui no lambda
+            OpenNova = new Command(async () =>
             {
                 await Shell.Current.GoToAsync("//nova");
             });
-
-            OpenSync = new Command(async () =>  // ← async só aqui no lambda
+            OpenSync = new Command(async () =>
             {
                 await Shell.Current.GoToAsync("//sync");
             });

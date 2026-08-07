@@ -17,9 +17,6 @@ namespace AppOcorrencias.Models
         public string Hora { get; set; }
         public string Solicitante { get; set; }
 
-        // Passo 2 — Escola (compartilhada entre os adolescentes da ocorrência)
-        public string Escola { get; set; }
-
         // Passo 3 — Mãe
         public string MaeNome { get; set; }
         public string MaeRG { get; set; }

@@ -10,7 +10,7 @@
 
             <VerticalStackLayout Spacing="2" Margin="0,10,0,0">
                 <Label Text="Nova Ocorrência" TextColor="White" FontSize="26" FontAttributes="Bold"/>
-                <Label Text="Passo 1 de 6 — Dados da Ocorrência" TextColor="#D9DBF5" FontSize="13"/>
+                <Label Text="Passo 1 de 5 — Dados da Ocorrência" TextColor="#D9DBF5" FontSize="13"/>
             </VerticalStackLayout>
 
             <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
