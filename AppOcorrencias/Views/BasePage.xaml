@@ -71,13 +71,13 @@
         BackgroundColor="Transparent"
         Command="{TemplateBinding BindingContext.OpenNova}"/>
                         <ImageButton
-        Source="meus.png"
-        WidthRequest="30"
-        HeightRequest="30"
-        Aspect="AspectFit"
-        VerticalOptions="Start"
-        BackgroundColor="Transparent"
-        Command="{TemplateBinding BindingContext.ToggleMenuCommand}"/>
+    Source="meus.png"
+    WidthRequest="30"
+    HeightRequest="30"
+    Aspect="AspectFit"
+    VerticalOptions="Start"
+    BackgroundColor="Transparent"
+    Command="{TemplateBinding BindingContext.OpenMeus}"/>
                         <ImageButton
         Source="sync.png"
         WidthRequest="30"

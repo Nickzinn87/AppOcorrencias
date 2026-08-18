@@ -27,15 +27,21 @@
                 EndInteraction="OnEnd"/>
         </Border>
 
-        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="10">
+        <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="10">
             <Button
                 Grid.Column="0"
+                Text="Cancelar"
+                Clicked="OnCancelar"
+                BackgroundColor="#C0392B"
+                TextColor="White"/>
+            <Button
+                Grid.Column="1"
                 Text="Limpar"
                 Clicked="OnLimpar"
                 BackgroundColor="#3A4088"
                 TextColor="White"/>
             <Button
-                Grid.Column="1"
+                Grid.Column="2"
                 Text="Confirmar"
                 Clicked="OnConfirmar"
                 BackgroundColor="#767DCA"

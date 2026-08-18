@@ -26,7 +26,7 @@ namespace AppOcorrencias.Services
         {
             OcorrenciaAtual = new Ocorrencia
             {
-                RegistradoPorCPF = UserSingleton.Instance.UsuarioLogado?.CPF
+                ConselheiroId = UserSingleton.Instance.UsuarioLogado?.IdServidor ?? 0
             };
             Adolescentes = new List<Adolescente>();
             Envolvidos = new List<PessoaEnvolvida>();
@@ -37,7 +37,7 @@ namespace AppOcorrencias.Services
         {
             OcorrenciaAtual = new Ocorrencia
             {
-                RegistradoPorCPF = UserSingleton.Instance.UsuarioLogado?.CPF
+                ConselheiroId = UserSingleton.Instance.UsuarioLogado?.IdServidor ?? 0
             };
             Adolescentes = new List<Adolescente>();
             Envolvidos = new List<PessoaEnvolvida>();

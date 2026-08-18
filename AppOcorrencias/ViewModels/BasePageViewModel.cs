@@ -27,6 +27,7 @@ namespace AppOcorrencias.ViewModels
         public ICommand ToggleMenuCommand { get; }
         public ICommand OpenNova { get; }
         public ICommand OpenSync { get; }
+        public ICommand OpenMeus { get; }
 
         public BasePageViewModel()
         {
@@ -41,6 +42,11 @@ namespace AppOcorrencias.ViewModels
             OpenSync = new Command(async () =>
             {
                 await Shell.Current.GoToAsync("//sync");
+            });
+            OpenMeus = new Command(async () =>
+            {
+                MenuAberto = false;
+                await Shell.Current.GoToAsync("//minhas");
             });
         }
     }

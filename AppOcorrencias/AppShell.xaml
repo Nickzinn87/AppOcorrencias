@@ -19,5 +19,8 @@
     <ShellContent
         Route="nova"
         ContentTemplate="{DataTemplate views:pgOcorrenciaPasso1}" />
+    <ShellContent
+        Route="minhas"
+        ContentTemplate="{DataTemplate views:pgMinhasOcorrencias}" />
 
 </Shell>

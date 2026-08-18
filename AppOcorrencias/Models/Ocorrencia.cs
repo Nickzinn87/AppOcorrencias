@@ -51,7 +51,8 @@ namespace AppOcorrencias.Models
         // Passo 6 — Histórico
         public string Historico { get; set; }
 
-        public string RegistradoPorCPF { get; set; }
+        // era: public string RegistradoPorCPF { get; set; }
+        public int ConselheiroId { get; set; } // 🔹 Id do usuário logado no servidor (conselheiro)
         public bool Sincronizado { get; set; } = false;
         public DateTime CriadoEm { get; set; } = DateTime.Now;
     }

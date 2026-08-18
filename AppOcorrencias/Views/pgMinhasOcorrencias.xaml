@@ -1,0 +1,95 @@
+<views:BasePage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AppOcorrencias.Views"
+    x:Class="AppOcorrencias.Views.pgMinhasOcorrencias"
+    BackgroundColor="#4850A3">
+
+    <Grid RowDefinitions="Auto,*" Padding="20">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="2" Margin="0,10,0,16">
+            <Label Text="Minhas Ocorrências" TextColor="White" FontSize="26" FontAttributes="Bold"/>
+            <Label Text="Registros feitos por você" TextColor="#D9DBF5" FontSize="13"/>
+        </VerticalStackLayout>
+
+        <RefreshView Grid.Row="1" Command="{Binding AtualizarCommand}" IsRefreshing="{Binding Carregando}">
+            <ScrollView>
+                <VerticalStackLayout Spacing="10">
+
+                    <!-- ESTADO VAZIO -->
+                    <VerticalStackLayout IsVisible="{Binding SemOcorrencias}" Padding="0,60,0,0" Spacing="8">
+                        <Label Text="📋" FontSize="42" HorizontalOptions="Center"/>
+                        <Label
+                            Text="Nenhuma ocorrência encontrada"
+                            TextColor="#D9DBF5"
+                            FontSize="15"
+                            HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+
+                    <!-- LISTA -->
+                    <CollectionView ItemsSource="{Binding Ocorrencias}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    BackgroundColor="White"
+                                    StrokeShape="RoundRectangle 16"
+                                    Stroke="Transparent"
+                                    Padding="16"
+                                    Margin="0,4">
+
+                                    <Border.Shadow>
+                                        <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.15"/>
+                                    </Border.Shadow>
+
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgMinhasOcorrencias}}, Path=BindingContext.AbrirDetalhesCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Border.GestureRecognizers>
+
+                                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="4">
+
+                                        <Label
+                                            Grid.Row="0" Grid.Column="0"
+                                            Text="{Binding Natureza}"
+                                            TextColor="#2B2E4A"
+                                            FontAttributes="Bold"
+                                            FontSize="16"/>
+
+                                        <Border
+                                            Grid.Row="0" Grid.Column="1"
+                                            BackgroundColor="{Binding StatusCor}"
+                                            StrokeShape="RoundRectangle 20"
+                                            Stroke="Transparent"
+                                            Padding="10,4">
+                                            <Label
+                                                Text="{Binding Status}"
+                                                TextColor="White"
+                                                FontSize="11"
+                                                FontAttributes="Bold"/>
+                                        </Border>
+
+                                        <Label
+                                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                            Text="{Binding Local}"
+                                            TextColor="#767DCA"
+                                            FontSize="13"/>
+
+                                        <Label
+                                            Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                            Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}"
+                                            TextColor="#B7B9E0"
+                                            FontSize="12"/>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+
+    </Grid>
+</views:BasePage>

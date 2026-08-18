@@ -64,6 +64,12 @@ namespace AppOcorrencias.Views
 
             await Navigation.PopModalAsync();
         }
+
+        async void OnCancelar(object sender, EventArgs e)
+        {
+            // 🔹 não dispara AssinaturaConfirmada — simplesmente fecha sem salvar nada
+            await Navigation.PopModalAsync();
+        }
     }
 
     public class SignatureDrawable : IDrawable

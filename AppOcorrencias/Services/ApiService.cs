@@ -27,47 +27,33 @@ namespace AppOcorrencias.Services
                 senha = senha?.Trim();
 
                 var content = new StringContent(
-                    JsonSerializer.Serialize(new
-                    {
-                        cpf = cpf,
-                        senha = senha
-                    }),
+                    JsonSerializer.Serialize(new { cpf = cpf, senha = senha }),
                     Encoding.UTF8,
                     "application/json"
                 );
 
                 var response = await _http.PostAsync("login.php", content);
-
                 if (!response.IsSuccessStatusCode)
                     return null;
 
                 var json = await response.Content.ReadAsStringAsync();
-
                 var result = JsonSerializer.Deserialize<LoginResponse>(json);
 
                 if (result != null && result.usuario != null)
                 {
-                    await App.Current.MainPage.DisplayAlert("Login Realizado", "Usuario logado: " + result.usuario.nome, "OK");
-
                     return new Usuario
                     {
+                        IdServidor = result.usuario.id, // 🔹 agora capturado
                         CPF = cpf,
                         Senha = senha,
                         Nome = result.usuario.nome
                     };
                 }
 
-                // debug temporário
-                await App.Current.MainPage.DisplayAlert("RESPOSTA", json, "OK");
-
                 return null;
             }
-            catch (Exception ex)
+            catch
             {
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                    App.Current.MainPage.DisplayAlert("ERRO", ex.Message, "OK")
-                );
-
                 return null;
             }
         }
