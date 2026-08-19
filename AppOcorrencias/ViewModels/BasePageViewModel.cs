@@ -21,13 +21,13 @@ namespace AppOcorrencias.ViewModels
             }
         }
 
-        // 🔹 puxa o nome direto do usuário logado no singleton
         public string NomeUsuario => UserSingleton.Instance.UsuarioLogado?.Nome ?? "Usuário";
 
         public ICommand ToggleMenuCommand { get; }
         public ICommand OpenNova { get; }
         public ICommand OpenSync { get; }
         public ICommand OpenMeus { get; }
+        public ICommand LogoutCommand { get; }
 
         public BasePageViewModel()
         {
@@ -35,18 +35,41 @@ namespace AppOcorrencias.ViewModels
             {
                 MenuAberto = !MenuAberto;
             });
+
             OpenNova = new Command(async () =>
             {
+                MenuAberto = false;
                 await Shell.Current.GoToAsync("//nova");
             });
+
             OpenSync = new Command(async () =>
             {
+                MenuAberto = false;
                 await Shell.Current.GoToAsync("//sync");
             });
+
             OpenMeus = new Command(async () =>
             {
                 MenuAberto = false;
                 await Shell.Current.GoToAsync("//minhas");
+            });
+
+            LogoutCommand = new Command(async () =>
+            {
+                MenuAberto = false;
+
+                bool confirmar = await Shell.Current.DisplayAlert(
+                    "Sair",
+                    "Tem certeza que deseja sair da sua conta?",
+                    "Sim",
+                    "Cancelar");
+
+                if (!confirmar) return;
+
+                UserSingleton.Instance.Logout();
+
+                // 🔹 troca a página raiz pro login, limpando toda a pilha de navegação
+                await Shell.Current.GoToAsync("//login");
             });
         }
     }

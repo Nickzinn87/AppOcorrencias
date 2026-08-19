@@ -110,29 +110,65 @@ namespace AppOcorrencias.ViewModels
                     return;
                 }
 
-                // 🔹 salva a ocorrência principal
+                // 🔹 salva tudo localmente primeiro (garante que nada se perde, mesmo se a API falhar)
                 await _db.SalvarOcorrenciaAsync(ocorrencia);
 
-                // 🔹 salva os adolescentes
                 foreach (var adolescente in NovaOcorrenciaSingleton.Instance.Adolescentes)
                 {
                     adolescente.OcorrenciaUid = ocorrencia.Uid;
                     await _db.SalvarAdolescenteAsync(adolescente);
                 }
 
-                // 🔹 garante que todos os envolvidos (assinados ou não) estão salvos
                 foreach (var envolvido in Assinantes)
                 {
                     envolvido.OcorrenciaUid = ocorrencia.Uid;
                     await _db.SalvarEnvolvidoAsync(envolvido);
                 }
 
-                await Shell.Current.DisplayAlert("Sucesso", "Ocorrência registrada com sucesso! Será enviada quando houver conexão.", "OK");
+                // 🔹 tenta enviar pra API se tiver internet
+                bool enviado = false;
+
+                if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+                {
+                    var assinaturaConselheiro = await ObterBase64AssinaturaAsync("Conselheiro Responsável");
+                    var assinaturaResponsavel = await ObterBase64AssinaturaAsync("Pai/Mãe ou Responsável");
+                    var assinaturaSolicitante = await ObterBase64AssinaturaAsync("Solicitante");
+
+                    var api = new ApiService();
+                    var (sucesso, resposta) = await api.SalvarOcorrenciaAsync(
+                        ocorrencia,
+                        NovaOcorrenciaSingleton.Instance.Adolescentes,
+                        assinaturaConselheiro,
+                        assinaturaResponsavel,
+                        assinaturaSolicitante);
+
+                    if (sucesso)
+                    {
+                        ocorrencia.Sincronizado = true;
+                        await _db.SalvarOcorrenciaAsync(ocorrencia); // 🔹 atualiza o status local pra "Enviada"
+                        enviado = true;
+                    }
+                }
+
+                var mensagem = enviado
+                    ? "Ocorrência registrada e enviada com sucesso!"
+                    : "Ocorrência salva localmente. Será enviada quando houver conexão.";
+
+                await Shell.Current.DisplayAlert("Sucesso", mensagem, "OK");
 
                 NovaOcorrenciaSingleton.Instance.Limpar();
 
                 await Shell.Current.Navigation.PopToRootAsync();
             });
+        }
+
+        async Task<string> ObterBase64AssinaturaAsync(string papel)
+        {
+            var pessoa = Assinantes.FirstOrDefault(a => a.Papel == papel);
+            if (pessoa == null || !pessoa.Assinado) return null;
+
+            var assinatura = await _db.GetAssinaturaPorEnvolvidoAsync(pessoa.Id);
+            return assinatura?.ImagemBase64;
         }
 
         static string CalcularHash(string base64)

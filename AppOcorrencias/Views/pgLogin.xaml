@@ -2,101 +2,150 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppOcorrencias.Views.pgLogin"
-             Shell.NavBarIsVisible="False"
-             BackgroundColor="#4850A3">
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0B0D26" Offset="0.0"/>
+            <GradientStop Color="#161B45" Offset="0.5"/>
+            <GradientStop Color="#0B0D26" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <ScrollView>
         <Grid RowDefinitions="*,Auto,*" Padding="30">
 
             <!-- CABEÇALHO -->
-            <VerticalStackLayout Grid.Row="0" VerticalOptions="End" Spacing="1" Margin="0,0,0,10">
-                <Image
-                    Source="logo.png"
-                    HeightRequest="200"
-                    WidthRequest="200"
-                    HorizontalOptions="Center"
-                    Aspect="AspectFit"/>
+            <VerticalStackLayout Grid.Row="0" VerticalOptions="End" Spacing="2" Margin="0,0,0,24">
+
+                <!-- brilho atrás do logo -->
+                <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                    <Ellipse
+                        WidthRequest="220"
+                        HeightRequest="220"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Opacity="0.35">
+                        <Ellipse.Fill>
+                            <RadialGradientBrush Center="0.5,0.5" Radius="0.5">
+                                <GradientStop Color="#5B6EF5" Offset="0.0"/>
+                                <GradientStop Color="#0B0D26" Offset="1.0"/>
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <Image
+                        Source="logo.png"
+                        HeightRequest="150"
+                        WidthRequest="150"
+                        HorizontalOptions="Center"
+                        Aspect="AspectFit"/>
+                </Grid>
+
                 <Label
-                    Text="Registro de ocorrências em campo"
+                    Text="GUARDSYSTEM"
+                    FontSize="12"
+                    CharacterSpacing="4"
+                    TextColor="#8B92C9"
+                    HorizontalOptions="Center"
+                    Margin="0,10,0,0"/>
+
+                <Label
+                    Text="Registro de Ocorrências"
+                    FontSize="22"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    HorizontalOptions="Center"
+                    Margin="0,4,0,0"/>
+
+                <Label
+                    Text="Bem-vindo de volta"
                     FontSize="13"
-                    TextColor="#D9DBF5"
+                    TextColor="#8B92C9"
                     HorizontalOptions="Center"/>
             </VerticalStackLayout>
 
             <!-- CARD DE LOGIN -->
             <Border
                 Grid.Row="1"
-                BackgroundColor="White"
+                BackgroundColor="#141833"
                 StrokeShape="RoundRectangle 20"
-                Stroke="Transparent"
+                Stroke="#2A2F5C"
+                StrokeThickness="1"
                 Padding="25,30"
                 VerticalOptions="Center">
 
                 <Border.Shadow>
-                    <Shadow Brush="Black" Offset="0,8" Radius="20" Opacity="0.25"/>
+                    <Shadow Brush="#5B6EF5" Offset="0,4" Radius="24" Opacity="0.15"/>
                 </Border.Shadow>
 
                 <VerticalStackLayout Spacing="6">
 
-                    <Label
-                        Text="Bem-vindo"
-                        FontSize="20"
-                        FontAttributes="Bold"
-                        TextColor="#4850A3"
-                        Margin="0,0,0,15"/>
-
                     <!-- CPF -->
-                    <Label Text="CPF" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
+                    <Label Text="CPF" FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9"/>
                     <Border
                         StrokeShape="RoundRectangle 10"
-                        Stroke="#DADCF0"
+                        Stroke="#2A2F5C"
                         StrokeThickness="1.5"
-                        Padding="12,0"
-                        HeightRequest="48">
+                        BackgroundColor="#0F1330"
+                        Padding="14,0"
+                        HeightRequest="50">
                         <Entry
-    x:Name="entryCPF"
-    StyleId="cpf"
-    Text="{Binding CPF}"
-    Placeholder="000.000.000-00"
-    PlaceholderColor="#B7B9E0"
-    Keyboard="Numeric"
-    MaxLength="14"
-    IsTextPredictionEnabled="False"
-    IsSpellCheckEnabled="False"
-    TextChanged="OnCPFTextChanged"
-    BackgroundColor="Transparent"
-    TextColor="#2B2E4A"
-    VerticalOptions="Center"/>
+                            x:Name="entryCPF"
+                            StyleId="cpf"
+                            Text="{Binding CPF}"
+                            Placeholder="000.000.000-00"
+                            PlaceholderColor="#4C5389"
+                            Keyboard="Numeric"
+                            MaxLength="14"
+                            IsTextPredictionEnabled="False"
+                            IsSpellCheckEnabled="False"
+                            TextChanged="OnCPFTextChanged"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            VerticalOptions="Center"/>
                     </Border>
 
                     <!-- SENHA -->
-                    <Label Text="Senha" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,18,0,0"/>
+                    <Label Text="Senha" FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,18,0,0"/>
                     <Border
                         StrokeShape="RoundRectangle 10"
-                        Stroke="#DADCF0"
+                        Stroke="#2A2F5C"
                         StrokeThickness="1.5"
-                        Padding="12,0"
-                        HeightRequest="48">
+                        BackgroundColor="#0F1330"
+                        Padding="14,0"
+                        HeightRequest="50">
                         <Entry
                             Text="{Binding Senha}"
                             Placeholder="Digite sua senha"
-                            PlaceholderColor="#B7B9E0"
+                            PlaceholderColor="#4C5389"
                             IsPassword="True"
                             BackgroundColor="Transparent"
-                            TextColor="#2B2E4A"
+                            TextColor="White"
                             VerticalOptions="Center"/>
                     </Border>
 
                     <!-- BOTÃO -->
-                    <Button
-                        Text="Entrar"
-                        Command="{Binding LoginCommand}"
-                        BackgroundColor="#4850A3"
-                        TextColor="White"
-                        FontAttributes="Bold"
-                        CornerRadius="10"
-                        HeightRequest="50"
-                        Margin="0,25,0,0"/>
+                    <Border
+                        StrokeShape="RoundRectangle 12"
+                        Stroke="Transparent"
+                        Margin="0,26,0,0"
+                        HeightRequest="52">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#8B5CF6" Offset="0.0"/>
+                                <GradientStop Color="#3B82F6" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Button
+                            Text="Entrar"
+                            Command="{Binding LoginCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            CharacterSpacing="1"
+                            BorderWidth="0"/>
+                    </Border>
 
                 </VerticalStackLayout>
             </Border>
@@ -105,8 +154,9 @@
             <Label
                 Grid.Row="2"
                 Text="© GuardSystem"
-                FontSize="12"
-                TextColor="#B7B9E0"
+                FontSize="11"
+                CharacterSpacing="1"
+                TextColor="#4C5389"
                 HorizontalOptions="Center"
                 VerticalOptions="End"
                 Margin="0,20,0,0"/>

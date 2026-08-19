@@ -2,14 +2,26 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:AppOcorrencias.Views"
-    x:Class="AppOcorrencias.Views.pgMinhasOcorrencias"
-    BackgroundColor="#4850A3">
+    x:Class="AppOcorrencias.Views.pgMinhasOcorrencias">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0B0D26" Offset="0.0"/>
+            <GradientStop Color="#161B45" Offset="0.5"/>
+            <GradientStop Color="#0B0D26" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <Grid RowDefinitions="Auto,*" Padding="20">
 
         <VerticalStackLayout Grid.Row="0" Spacing="2" Margin="0,10,0,16">
-            <Label Text="Minhas Ocorrências" TextColor="White" FontSize="26" FontAttributes="Bold"/>
-            <Label Text="Registros feitos por você" TextColor="#D9DBF5" FontSize="13"/>
+            <Label
+                Text="MINHAS OCORRÊNCIAS"
+                TextColor="#8B92C9"
+                FontSize="11"
+                CharacterSpacing="2"
+                FontAttributes="Bold"/>
+            <Label Text="Registros feitos por você" TextColor="White" FontSize="24" FontAttributes="Bold"/>
         </VerticalStackLayout>
 
         <RefreshView Grid.Row="1" Command="{Binding AtualizarCommand}" IsRefreshing="{Binding Carregando}">
@@ -21,7 +33,7 @@
                         <Label Text="📋" FontSize="42" HorizontalOptions="Center"/>
                         <Label
                             Text="Nenhuma ocorrência encontrada"
-                            TextColor="#D9DBF5"
+                            TextColor="#8B92C9"
                             FontSize="15"
                             HorizontalOptions="Center"/>
                     </VerticalStackLayout>
@@ -31,14 +43,15 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border
-                                    BackgroundColor="White"
+                                    BackgroundColor="#141833"
+                                    Stroke="#2A2F5C"
+                                    StrokeThickness="1"
                                     StrokeShape="RoundRectangle 16"
-                                    Stroke="Transparent"
                                     Padding="16"
                                     Margin="0,4">
 
                                     <Border.Shadow>
-                                        <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.15"/>
+                                        <Shadow Brush="#5B6EF5" Offset="0,4" Radius="16" Opacity="0.12"/>
                                     </Border.Shadow>
 
                                     <Border.GestureRecognizers>
@@ -52,7 +65,7 @@
                                         <Label
                                             Grid.Row="0" Grid.Column="0"
                                             Text="{Binding Natureza}"
-                                            TextColor="#2B2E4A"
+                                            TextColor="White"
                                             FontAttributes="Bold"
                                             FontSize="16"/>
 
@@ -72,13 +85,13 @@
                                         <Label
                                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                             Text="{Binding Local}"
-                                            TextColor="#767DCA"
+                                            TextColor="#A8AEDC"
                                             FontSize="13"/>
 
                                         <Label
                                             Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                             Text="{Binding Data, StringFormat='{0:dd/MM/yyyy}'}"
-                                            TextColor="#B7B9E0"
+                                            TextColor="#5C639C"
                                             FontSize="12"/>
 
                                     </Grid>

@@ -9,83 +9,184 @@
             <Grid>
                 <!-- CONTEÚDO PRINCIPAL -->
                 <Grid RowDefinitions="Auto,*">
+
                     <!-- HEADER -->
                     <Grid
                         ZIndex="3"
                         HeightRequest="60"
-                        BackgroundColor="#767DCA"
-                        Padding="10"
+                        Padding="14,0"
                         ColumnDefinitions="Auto,*,Auto">
-                        <ImageButton
-                        Source="menu.png"
-                        WidthRequest="30"
-                        BackgroundColor="Transparent"
-                        Command="{TemplateBinding BindingContext.ToggleMenuCommand}"/>
+
+                        <Grid.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#141833" Offset="0.0"/>
+                                <GradientStop Color="#1E2352" Offset="1.0"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+
+                        <Border
+                            Grid.Column="0"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            StrokeShape="RoundRectangle 10"
+                            Stroke="#2A2F5C"
+                            StrokeThickness="1"
+                            BackgroundColor="#0F1330"
+                            Padding="0"
+                            VerticalOptions="Center">
+                            <ImageButton
+                                Source="menu.png"
+                                WidthRequest="20"
+                                HeightRequest="20"
+                                Aspect="AspectFit"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.ToggleMenuCommand}"/>
+                        </Border>
+
                         <Label
-                        Grid.Column="1"
-                        Text="{TemplateBinding BindingContext.NomeUsuario}"
-                        TextColor="White"
-                        FontSize="18"
-                        FontAttributes="Bold"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"/>
+                            Grid.Column="1"
+                            Text="{TemplateBinding BindingContext.NomeUsuario}"
+                            TextColor="White"
+                            FontSize="17"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"/>
+
                     </Grid>
+
                     <!-- CONTEÚDO DA PÁGINA -->
                     <ContentPresenter Grid.Row="1"/>
                 </Grid>
+
                 <!-- OVERLAY -->
                 <Grid
                     ZIndex="1"
                     Margin="0, 60, 0, 0"
                     IsVisible="{TemplateBinding BindingContext.MenuAberto}"
-                    BackgroundColor="#80000000">
+                    BackgroundColor="#B3000000">
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer
                         Command="{TemplateBinding BindingContext.ToggleMenuCommand}" />
                     </Grid.GestureRecognizers>
                 </Grid>
+
                 <!-- MENU LATERAL -->
                 <Grid
                     ZIndex="2"
                     WidthRequest="100"
-                    BackgroundColor="#767DCA"
                     HorizontalOptions="Start"
                     Margin="0, 60, 0, 0"
                     IsVisible="{TemplateBinding BindingContext.MenuAberto}">
-                    <VerticalStackLayout Padding="20,16" Spacing="18">
-                        <Label Text="Menu" TextColor="White" FontSize="18" Margin="0,0,0,6"/>
-                        <ImageButton
-        Source="home.png"
-        WidthRequest="30"
-        HeightRequest="30"
-        Aspect="AspectFit"
-        VerticalOptions="Start"
-        BackgroundColor="Transparent"
-        Command="{TemplateBinding BindingContext.ToggleMenuCommand}"/>
-                        <ImageButton
-        Source="nova.png"
-        WidthRequest="30"
-        HeightRequest="30"
-        Aspect="AspectFit"
-        VerticalOptions="Start"
-        BackgroundColor="Transparent"
-        Command="{TemplateBinding BindingContext.OpenNova}"/>
-                        <ImageButton
-    Source="meus.png"
-    WidthRequest="30"
-    HeightRequest="30"
-    Aspect="AspectFit"
-    VerticalOptions="Start"
-    BackgroundColor="Transparent"
-    Command="{TemplateBinding BindingContext.OpenMeus}"/>
-                        <ImageButton
-        Source="sync.png"
-        WidthRequest="30"
-        HeightRequest="30"
-        Aspect="AspectFit"
-        VerticalOptions="Start"
-        BackgroundColor="Transparent"
-        Command="{TemplateBinding BindingContext.OpenSync}"/>
+
+                    <Grid.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="#141833" Offset="0.0"/>
+                            <GradientStop Color="#0B0D26" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+
+                    <BoxView
+                        WidthRequest="1"
+                        HorizontalOptions="End"
+                        BackgroundColor="#2A2F5C"/>
+
+                    <VerticalStackLayout Padding="16,18" Spacing="16">
+
+                        <Label
+                            Text="MENU"
+                            TextColor="#8B92C9"
+                            FontSize="11"
+                            CharacterSpacing="2"
+                            FontAttributes="Bold"
+                            Margin="0,0,0,6"/>
+
+                        <Border
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="#2A2F5C"
+                            StrokeThickness="1"
+                            BackgroundColor="#1B2050"
+                            Padding="0">
+                            <ImageButton
+                                Source="home.png"
+                                WidthRequest="22"
+                                HeightRequest="22"
+                                Aspect="AspectFit"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.ToggleMenuCommand}"/>
+                        </Border>
+
+                        <Border
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="#2A2F5C"
+                            StrokeThickness="1"
+                            BackgroundColor="#1B2050"
+                            Padding="0">
+                            <ImageButton
+                                Source="nova.png"
+                                WidthRequest="22"
+                                HeightRequest="22"
+                                Aspect="AspectFit"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.OpenNova}"/>
+                        </Border>
+
+                        <Border
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="#2A2F5C"
+                            StrokeThickness="1"
+                            BackgroundColor="#1B2050"
+                            Padding="0">
+                            <ImageButton
+                                Source="meus.png"
+                                WidthRequest="22"
+                                HeightRequest="22"
+                                Aspect="AspectFit"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.OpenMeus}"/>
+                        </Border>
+
+                        <Border
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="#2A2F5C"
+                            StrokeThickness="1"
+                            BackgroundColor="#1B2050"
+                            Padding="0">
+                            <ImageButton
+                                Source="sync.png"
+                                WidthRequest="22"
+                                HeightRequest="22"
+                                Aspect="AspectFit"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.OpenSync}"/>
+                        </Border>
+
+                        <BoxView HeightRequest="1" BackgroundColor="#2A2F5C" Margin="0,6"/>
+
+                        <Border
+                            WidthRequest="44"
+                            HeightRequest="44"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="#5C2A3A"
+                            StrokeThickness="1"
+                            BackgroundColor="#2A1420"
+                            Padding="0">
+                            <ImageButton
+                                Source="logout.png"
+                                WidthRequest="22"
+                                HeightRequest="22"
+                                Aspect="AspectFit"
+                                BackgroundColor="Transparent"
+                                Command="{TemplateBinding BindingContext.LogoutCommand}"/>
+                        </Border>
+
                     </VerticalStackLayout>
                 </Grid>
             </Grid>
