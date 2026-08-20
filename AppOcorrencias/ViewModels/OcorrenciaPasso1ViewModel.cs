@@ -66,5 +66,18 @@ namespace AppOcorrencias.ViewModels
                 await Shell.Current.Navigation.PushAsync(new pgOcorrenciaPasso2());
             });
         }
+
+        public override void OnAppearingRefresh()
+        {
+            base.OnAppearingRefresh();
+
+            NovaOcorrenciaSingleton.Instance.IniciarNova();
+            OnPropertyChanged(nameof(Numero));
+            OnPropertyChanged(nameof(Natureza));
+            OnPropertyChanged(nameof(Local));
+            OnPropertyChanged(nameof(Data));
+            OnPropertyChanged(nameof(Hora));
+            OnPropertyChanged(nameof(Solicitante));
+        }
     }
 }

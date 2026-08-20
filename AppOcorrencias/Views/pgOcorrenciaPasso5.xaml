@@ -2,32 +2,54 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:AppOcorrencias.Views"
-    x:Class="AppOcorrencias.Views.pgOcorrenciaPasso5"
-    BackgroundColor="#4850A3">
+    x:Class="AppOcorrencias.Views.pgOcorrenciaPasso5">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0B0D26" Offset="0.0"/>
+            <GradientStop Color="#161B45" Offset="0.5"/>
+            <GradientStop Color="#0B0D26" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="18">
 
             <VerticalStackLayout Spacing="2" Margin="0,10,0,0">
-                <Label Text="Nova Ocorrência" TextColor="White" FontSize="26" FontAttributes="Bold"/>
-                <Label Text="Passo 5 de 5 — Histórico e Assinaturas" TextColor="#D9DBF5" FontSize="13"/>
+                <Label
+                    Text="NOVA OCORRÊNCIA"
+                    TextColor="#8B92C9"
+                    FontSize="11"
+                    CharacterSpacing="2"
+                    FontAttributes="Bold"/>
+                <Label Text="Histórico e Assinaturas" TextColor="White" FontSize="24" FontAttributes="Bold"/>
+
+                <!-- INDICADOR DE PROGRESSO -->
+                <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="6" Margin="0,10,0,0">
+                    <BoxView Grid.Column="0" HeightRequest="4" CornerRadius="2" BackgroundColor="#8B5CF6"/>
+                    <BoxView Grid.Column="1" HeightRequest="4" CornerRadius="2" BackgroundColor="#8B5CF6"/>
+                    <BoxView Grid.Column="2" HeightRequest="4" CornerRadius="2" BackgroundColor="#8B5CF6"/>
+                    <BoxView Grid.Column="3" HeightRequest="4" CornerRadius="2" BackgroundColor="#8B5CF6"/>
+                    <BoxView Grid.Column="4" HeightRequest="4" CornerRadius="2" BackgroundColor="#8B5CF6"/>
+                </Grid>
+                <Label Text="Passo 5 de 5" TextColor="#5C639C" FontSize="12" Margin="0,4,0,0"/>
             </VerticalStackLayout>
 
             <!-- CARD: HISTÓRICO -->
-            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+            <Border BackgroundColor="#141833" Stroke="#2A2F5C" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="20">
                 <Border.Shadow>
-                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                    <Shadow Brush="#5B6EF5" Offset="0,4" Radius="16" Opacity="0.12"/>
                 </Border.Shadow>
 
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Histórico" TextColor="#4850A3" FontAttributes="Bold" FontSize="18" Margin="0,0,0,6"/>
+                    <Label Text="Histórico" TextColor="White" FontAttributes="Bold" FontSize="17" Margin="0,0,0,6"/>
 
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,8">
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,8">
                         <Editor
                             Text="{Binding Historico}"
                             Placeholder="Descreva o histórico da ocorrência"
-                            PlaceholderColor="#B7B9E0"
-                            TextColor="#2B2E4A"
+                            PlaceholderColor="#4C5389"
+                            TextColor="White"
                             BackgroundColor="Transparent"
                             AutoSize="TextChanges"
                             HeightRequest="180"/>
@@ -36,22 +58,22 @@
             </Border>
 
             <!-- CARD: ASSINATURAS -->
-            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+            <Border BackgroundColor="#141833" Stroke="#2A2F5C" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="20">
                 <Border.Shadow>
-                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                    <Shadow Brush="#5B6EF5" Offset="0,4" Radius="16" Opacity="0.12"/>
                 </Border.Shadow>
 
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Assinaturas" TextColor="#4850A3" FontAttributes="Bold" FontSize="18"/>
+                    <Label Text="Assinaturas" TextColor="White" FontAttributes="Bold" FontSize="17"/>
 
                     <CollectionView ItemsSource="{Binding Assinantes}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Border
                                     StrokeShape="RoundRectangle 12"
-                                    Stroke="#E4E5F5"
+                                    Stroke="#2A2F5C"
                                     StrokeThickness="1"
-                                    BackgroundColor="#F5F6FC"
+                                    BackgroundColor="#0F1330"
                                     Padding="12"
                                     Margin="0,4">
 
@@ -63,7 +85,7 @@
                                             WidthRequest="64"
                                             HeightRequest="64"
                                             StrokeShape="RoundRectangle 10"
-                                            Stroke="#DADCF0"
+                                            Stroke="#2A2F5C"
                                             StrokeThickness="1"
                                             BackgroundColor="White"
                                             Padding="3">
@@ -71,24 +93,34 @@
                                         </Border>
 
                                         <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
-                                            <Label Text="{Binding Papel}" TextColor="#2B2E4A" FontAttributes="Bold"/>
+                                            <Label Text="{Binding Papel}" TextColor="White" FontAttributes="Bold"/>
                                             <Label
-                                                Text="{Binding Assinado, StringFormat='{0}'}"
-                                                TextColor="#767DCA"
+                                                Text="{Binding Assinado, StringFormat='Assinado: {0}'}"
+                                                TextColor="#8B92C9"
                                                 FontSize="12"/>
                                         </VerticalStackLayout>
 
-                                        <Button
+                                        <Border
                                             Grid.Column="2"
-                                            Text="Assinar"
-                                            VerticalOptions="Center"
-                                            BackgroundColor="#4850A3"
-                                            TextColor="White"
-                                            CornerRadius="8"
-                                            FontSize="13"
-                                            HeightRequest="38"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgOcorrenciaPasso5}}, Path=BindingContext.AssinarCommand}"
-                                            CommandParameter="{Binding .}"/>
+                                            StrokeShape="RoundRectangle 8"
+                                            Stroke="Transparent"
+                                            HeightRequest="38">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Color="#8B5CF6" Offset="0.0"/>
+                                                    <GradientStop Color="#3B82F6" Offset="1.0"/>
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Button
+                                                Text="Assinar"
+                                                VerticalOptions="Center"
+                                                BackgroundColor="Transparent"
+                                                TextColor="White"
+                                                FontSize="13"
+                                                BorderWidth="0"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type views:pgOcorrenciaPasso5}}, Path=BindingContext.AssinarCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                        </Border>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -98,24 +130,31 @@
             </Border>
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,24">
-                <Button
-                    Grid.Column="0"
-                    Text="← Voltar"
-                    Command="{Binding VoltarCommand}"
-                    BackgroundColor="#3A4088"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="12"
-                    HeightRequest="52"/>
-                <Button
-                    Grid.Column="1"
-                    Text="Concluir ✓"
-                    Command="{Binding ConcluirCommand}"
-                    BackgroundColor="#767DCA"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="12"
-                    HeightRequest="52"/>
+                <Border StrokeShape="RoundRectangle 12" Stroke="#2A2F5C" StrokeThickness="1" BackgroundColor="#141833" HeightRequest="52">
+                    <Button
+                        Text="← Voltar"
+                        Command="{Binding VoltarCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        BorderWidth="0"/>
+                </Border>
+
+                <Border Grid.Column="1" StrokeShape="RoundRectangle 12" Stroke="Transparent" HeightRequest="52">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8B5CF6" Offset="0.0"/>
+                            <GradientStop Color="#3B82F6" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Button
+                        Text="Concluir ✓"
+                        Command="{Binding ConcluirCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        BorderWidth="0"/>
+                </Border>
             </Grid>
 
         </VerticalStackLayout>

@@ -72,5 +72,11 @@ namespace AppOcorrencias.ViewModels
                 await Shell.Current.GoToAsync("//login");
             });
         }
+
+        // 🔹 chamado sempre que a página aparece na tela (inclusive reaproveitada pelo Shell)
+        public virtual void OnAppearingRefresh()
+        {
+            OnPropertyChanged(nameof(NomeUsuario));
+        }
     }
 }

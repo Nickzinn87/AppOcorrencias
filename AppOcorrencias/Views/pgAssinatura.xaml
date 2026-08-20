@@ -2,24 +2,45 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="AppOcorrencias.Views.pgAssinatura"
-    BackgroundColor="#4850A3"
     Title="Assinatura">
 
-    <Grid RowDefinitions="Auto,*,Auto" Padding="15" RowSpacing="10">
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0B0D26" Offset="0.0"/>
+            <GradientStop Color="#161B45" Offset="0.5"/>
+            <GradientStop Color="#0B0D26" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
-        <Label
-            Grid.Row="0"
-            x:Name="lblNomeSignatario"
-            FontSize="18"
-            FontAttributes="Bold"
-            TextColor="White"
-            HorizontalOptions="Center"/>
+    <Grid RowDefinitions="Auto,*,Auto" Padding="16" RowSpacing="14">
 
+        <VerticalStackLayout Grid.Row="0" Spacing="2">
+            <Label
+                Text="COLETA DE ASSINATURA"
+                TextColor="#8B92C9"
+                FontSize="11"
+                CharacterSpacing="2"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"/>
+            <Label
+                x:Name="lblNomeSignatario"
+                FontSize="19"
+                FontAttributes="Bold"
+                TextColor="White"
+                HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <!-- CANVAS: fica branco de proposito, e onde a assinatura e capturada -->
         <Border
             Grid.Row="1"
-            Stroke="White"
-            StrokeThickness="1"
-            BackgroundColor="White">
+            Stroke="#2A2F5C"
+            StrokeThickness="1.5"
+            StrokeShape="RoundRectangle 16"
+            BackgroundColor="White"
+            Padding="2">
+            <Border.Shadow>
+                <Shadow Brush="#5B6EF5" Offset="0,4" Radius="18" Opacity="0.15"/>
+            </Border.Shadow>
             <GraphicsView
                 x:Name="CanvasAssinatura"
                 StartInteraction="OnStart"
@@ -28,25 +49,43 @@
         </Border>
 
         <Grid Grid.Row="2" ColumnDefinitions="*,*,*" ColumnSpacing="10">
-            <Button
-                Grid.Column="0"
-                Text="Cancelar"
-                Clicked="OnCancelar"
-                BackgroundColor="#C0392B"
-                TextColor="White"/>
-            <Button
-                Grid.Column="1"
-                Text="Limpar"
-                Clicked="OnLimpar"
-                BackgroundColor="#3A4088"
-                TextColor="White"/>
-            <Button
-                Grid.Column="2"
-                Text="Confirmar"
-                Clicked="OnConfirmar"
-                BackgroundColor="#767DCA"
-                TextColor="White"/>
-        </Grid>
 
+            <Border StrokeShape="RoundRectangle 10" Stroke="#5C2A3A" StrokeThickness="1" BackgroundColor="#2A1420" HeightRequest="48">
+                <Button
+                    Text="Cancelar"
+                    Clicked="OnCancelar"
+                    BackgroundColor="Transparent"
+                    TextColor="#F28B9C"
+                    FontAttributes="Bold"
+                    BorderWidth="0"/>
+            </Border>
+
+            <Border Grid.Column="1" StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1" BackgroundColor="#141833" HeightRequest="48">
+                <Button
+                    Text="Limpar"
+                    Clicked="OnLimpar"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    BorderWidth="0"/>
+            </Border>
+
+            <Border Grid.Column="2" StrokeShape="RoundRectangle 10" Stroke="Transparent" HeightRequest="48">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8B5CF6" Offset="0.0"/>
+                        <GradientStop Color="#3B82F6" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Button
+                    Text="Confirmar"
+                    Clicked="OnConfirmar"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    BorderWidth="0"/>
+            </Border>
+
+        </Grid>
     </Grid>
 </ContentPage>

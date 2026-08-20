@@ -2,124 +2,153 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:AppOcorrencias.Views"
-    x:Class="AppOcorrencias.Views.pgOcorrenciaPasso3"
-    BackgroundColor="#4850A3">
+    x:Class="AppOcorrencias.Views.pgOcorrenciaPasso3">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0B0D26" Offset="0.0"/>
+            <GradientStop Color="#161B45" Offset="0.5"/>
+            <GradientStop Color="#0B0D26" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="18">
 
             <VerticalStackLayout Spacing="2" Margin="0,10,0,0">
-                <Label Text="Nova Ocorrência" TextColor="White" FontSize="26" FontAttributes="Bold"/>
-                <Label Text="Passo 3 de 5 — Filiação / Responsável" TextColor="#D9DBF5" FontSize="13"/>
+                <Label
+                    Text="NOVA OCORRÊNCIA"
+                    TextColor="#8B92C9"
+                    FontSize="11"
+                    CharacterSpacing="2"
+                    FontAttributes="Bold"/>
+                <Label Text="Filiação / Responsável" TextColor="White" FontSize="24" FontAttributes="Bold"/>
+
+                <!-- INDICADOR DE PROGRESSO -->
+                <Grid ColumnDefinitions="*,*,*,*,*" ColumnSpacing="6" Margin="0,10,0,0">
+                    <BoxView Grid.Column="0" HeightRequest="4" CornerRadius="2" BackgroundColor="#8B5CF6"/>
+                    <BoxView Grid.Column="1" HeightRequest="4" CornerRadius="2" BackgroundColor="#8B5CF6"/>
+                    <BoxView Grid.Column="2" HeightRequest="4" CornerRadius="2" BackgroundColor="#8B5CF6"/>
+                    <BoxView Grid.Column="3" HeightRequest="4" CornerRadius="2" BackgroundColor="#2A2F5C"/>
+                    <BoxView Grid.Column="4" HeightRequest="4" CornerRadius="2" BackgroundColor="#2A2F5C"/>
+                </Grid>
+                <Label Text="Passo 3 de 5" TextColor="#5C639C" FontSize="12" Margin="0,4,0,0"/>
             </VerticalStackLayout>
 
             <!-- CARD: MÃE -->
-            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+            <Border BackgroundColor="#141833" Stroke="#2A2F5C" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="20">
                 <Border.Shadow>
-                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                    <Shadow Brush="#5B6EF5" Offset="0,4" Radius="16" Opacity="0.12"/>
                 </Border.Shadow>
 
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Mãe" TextColor="#4850A3" FontAttributes="Bold" FontSize="18" Margin="0,0,0,6"/>
+                    <Label Text="Mãe" TextColor="White" FontAttributes="Bold" FontSize="17" Margin="0,0,0,6"/>
 
-                    <Label Text="Nome" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding MaeNome}" Placeholder="Nome da mãe" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="Nome" FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding MaeNome}" Placeholder="Nome da mãe" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
 
-                    <Label Text="R.G." FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding MaeRG}" Placeholder="RG da mãe" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="R.G." FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding MaeRG}" Placeholder="RG da mãe" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
 
-                    <Label Text="C.P.F." FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding MaeCPF}" Placeholder="CPF da mãe" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="C.P.F." FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding MaeCPF}" Placeholder="CPF da mãe" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
 
-                    <Label Text="Profissão" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding MaeProfissao}" Placeholder="Profissão da mãe" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="Profissão" FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding MaeProfissao}" Placeholder="Profissão da mãe" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
                 </VerticalStackLayout>
             </Border>
 
             <!-- CARD: PAI -->
-            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+            <Border BackgroundColor="#141833" Stroke="#2A2F5C" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="20">
                 <Border.Shadow>
-                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                    <Shadow Brush="#5B6EF5" Offset="0,4" Radius="16" Opacity="0.12"/>
                 </Border.Shadow>
 
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Pai" TextColor="#4850A3" FontAttributes="Bold" FontSize="18" Margin="0,0,0,6"/>
+                    <Label Text="Pai" TextColor="White" FontAttributes="Bold" FontSize="17" Margin="0,0,0,6"/>
 
-                    <Label Text="Nome" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding PaiNome}" Placeholder="Nome do pai" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="Nome" FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding PaiNome}" Placeholder="Nome do pai" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
 
-                    <Label Text="R.G." FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding PaiRG}" Placeholder="RG do pai" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="R.G." FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding PaiRG}" Placeholder="RG do pai" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
 
-                    <Label Text="C.P.F." FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding PaiCPF}" Placeholder="CPF do pai" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="C.P.F." FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding PaiCPF}" Placeholder="CPF do pai" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
 
-                    <Label Text="Profissão" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding PaiProfissao}" Placeholder="Profissão do pai" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="Profissão" FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding PaiProfissao}" Placeholder="Profissão do pai" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
                 </VerticalStackLayout>
             </Border>
 
             <!-- CARD: RESPONSÁVEL -->
-            <Border BackgroundColor="White" StrokeShape="RoundRectangle 18" Stroke="Transparent" Padding="20">
+            <Border BackgroundColor="#141833" Stroke="#2A2F5C" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="20">
                 <Border.Shadow>
-                    <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.2"/>
+                    <Shadow Brush="#5B6EF5" Offset="0,4" Radius="16" Opacity="0.12"/>
                 </Border.Shadow>
 
                 <VerticalStackLayout Spacing="4">
-                    <Label Text="Responsável (se aplicável)" TextColor="#4850A3" FontAttributes="Bold" FontSize="18" Margin="0,0,0,6"/>
+                    <Label Text="Responsável (se aplicável)" TextColor="White" FontAttributes="Bold" FontSize="17" Margin="0,0,0,6"/>
 
-                    <Label Text="Nome" FontSize="13" FontAttributes="Bold" TextColor="#767DCA"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding ResponsavelNome}" Placeholder="Nome do responsável" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="Nome" FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding ResponsavelNome}" Placeholder="Nome do responsável" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
 
-                    <Label Text="R.G." FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding ResponsavelRG}" Placeholder="RG do responsável" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="R.G." FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding ResponsavelRG}" Placeholder="RG do responsável" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
 
-                    <Label Text="Profissão" FontSize="13" FontAttributes="Bold" TextColor="#767DCA" Margin="0,10,0,0"/>
-                    <Border StrokeShape="RoundRectangle 10" Stroke="#DADCF0" StrokeThickness="1.5" Padding="12,0" HeightRequest="46">
-                        <Entry Text="{Binding ResponsavelProfissao}" Placeholder="Profissão do responsável" PlaceholderColor="#B7B9E0" TextColor="#2B2E4A" BackgroundColor="Transparent" VerticalOptions="Center"/>
+                    <Label Text="Profissão" FontSize="12" FontAttributes="Bold" CharacterSpacing="1" TextColor="#8B92C9" Margin="0,10,0,0"/>
+                    <Border StrokeShape="RoundRectangle 10" Stroke="#2A2F5C" StrokeThickness="1.5" BackgroundColor="#0F1330" Padding="12,0" HeightRequest="46">
+                        <Entry Text="{Binding ResponsavelProfissao}" Placeholder="Profissão do responsável" PlaceholderColor="#4C5389" TextColor="White" BackgroundColor="Transparent" VerticalOptions="Center"/>
                     </Border>
                 </VerticalStackLayout>
             </Border>
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,24">
-                <Button
-                    Grid.Column="0"
-                    Text="← Voltar"
-                    Command="{Binding VoltarCommand}"
-                    BackgroundColor="#3A4088"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="12"
-                    HeightRequest="52"/>
-                <Button
-                    Grid.Column="1"
-                    Text="Próximo →"
-                    Command="{Binding ProximoCommand}"
-                    BackgroundColor="#767DCA"
-                    TextColor="White"
-                    FontAttributes="Bold"
-                    CornerRadius="12"
-                    HeightRequest="52"/>
+                <Border StrokeShape="RoundRectangle 12" Stroke="#2A2F5C" StrokeThickness="1" BackgroundColor="#141833" HeightRequest="52">
+                    <Button
+                        Text="← Voltar"
+                        Command="{Binding VoltarCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        BorderWidth="0"/>
+                </Border>
+
+                <Border Grid.Column="1" StrokeShape="RoundRectangle 12" Stroke="Transparent" HeightRequest="52">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Color="#8B5CF6" Offset="0.0"/>
+                            <GradientStop Color="#3B82F6" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Button
+                        Text="Próximo →"
+                        Command="{Binding ProximoCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        BorderWidth="0"/>
+                </Border>
             </Grid>
 
         </VerticalStackLayout>

@@ -129,6 +129,12 @@ namespace AppOcorrencias.ViewModels
                 _carregandoInterno = false;
             }
         }
+
+        public override void OnAppearingRefresh()
+        {
+            base.OnAppearingRefresh();
+            _ = CarregarOcorrenciasAsync();
+        }
     }
 
     // 🔹 classe auxiliar só pra exibição na lista (não é salva no banco)
