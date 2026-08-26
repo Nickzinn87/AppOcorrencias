@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -19,6 +20,17 @@ namespace AppOcorrencias.Services
             };
         }
 
+        // 🔹 adiciona o token JWT no cabeçalho, se existir usuário logado com token salvo
+        private void AplicarTokenAuth()
+        {
+            var token = UserSingleton.Instance.UsuarioLogado?.Token;
+
+            if (!string.IsNullOrWhiteSpace(token))
+                _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            else
+                _http.DefaultRequestHeaders.Authorization = null;
+        }
+
         public async Task<Usuario> LoginAsync(string cpf, string senha)
         {
             try
@@ -33,33 +45,42 @@ namespace AppOcorrencias.Services
                 var response = await _http.PostAsync("login.php", content);
                 if (!response.IsSuccessStatusCode)
                     return null;
+
                 var json = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] JSON: {json}");
+
                 var result = JsonSerializer.Deserialize<LoginResponse>(json);
                 if (result != null && result.usuario != null)
                 {
+                    // 🔹 token pode vir solto no topo do JSON OU dentro de "usuario" — testa os dois
+                    var token = result.token ?? result.usuario.token;
+
                     return new Usuario
                     {
                         IdServidor = result.usuario.id,
                         CPF = cpf,
                         Senha = senha,
-                        Nome = result.usuario.nome
+                        Nome = result.usuario.nome,
+                        Token = token
                     };
                 }
                 return null;
             }
-            catch
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] ERRO: {ex}");
                 return null;
             }
         }
 
         // ================== OCORRÊNCIAS ==================
 
-        // 🔹 Lista "leve" — sem id, o endpoint retorna só id/data/local/conselheiro
         public async Task<List<OcorrenciaApiListItem>> GetOcorrenciasAsync()
         {
             try
             {
+                AplicarTokenAuth();
+
                 var response = await _http.GetAsync("ocorrencias.php");
                 System.Diagnostics.Debug.WriteLine($"[API OCORRENCIAS] Status (lista): {response.StatusCode}");
 
@@ -67,8 +88,6 @@ namespace AppOcorrencias.Services
                     return new List<OcorrenciaApiListItem>();
 
                 var json = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine($"[API OCORRENCIAS] JSON lista: {json}");
-
                 var lista = JsonSerializer.Deserialize<List<OcorrenciaApiListItem>>(json);
                 return lista ?? new List<OcorrenciaApiListItem>();
             }
@@ -79,11 +98,12 @@ namespace AppOcorrencias.Services
             }
         }
 
-        // 🔹 Detalhes completos de UMA ocorrência (com usuario_id, natureza, etc.)
         public async Task<OcorrenciaApiItem> GetOcorrenciaPorIdAsync(int id)
         {
             try
             {
+                AplicarTokenAuth();
+
                 var response = await _http.GetAsync($"ocorrencias.php?id={id}");
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -99,14 +119,16 @@ namespace AppOcorrencias.Services
         }
 
         public async Task<(bool sucesso, string respostaBruta)> SalvarOcorrenciaAsync(
-    Ocorrencia ocorrencia,
-    List<Adolescente> adolescentes,
-    string assinaturaConselheiro,
-    string assinaturaResponsavel,
-    string assinaturaSolicitante)
+            Ocorrencia ocorrencia,
+            List<Adolescente> adolescentes,
+            string assinaturaConselheiro,
+            string assinaturaResponsavel,
+            string assinaturaSolicitante)
         {
             try
             {
+                AplicarTokenAuth();
+
                 var payload = new
                 {
                     numero_registro = ocorrencia.Numero,
@@ -158,8 +180,6 @@ namespace AppOcorrencias.Services
                 };
 
                 var json = JsonSerializer.Serialize(payload);
-                System.Diagnostics.Debug.WriteLine($"[API SALVAR OCORRENCIA] Enviando (tamanho: {json.Length} chars)");
-
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync("ocorrencias.php", content);
 
@@ -183,6 +203,8 @@ namespace AppOcorrencias.Services
         public string Mensagem { get; set; }
         [JsonPropertyName("usuario")]
         public UsuarioApi usuario { get; set; }
+        [JsonPropertyName("token")]
+        public string token { get; set; } // 🔹 caso venha solto no topo do JSON
     }
 
     public class UsuarioApi
@@ -191,9 +213,10 @@ namespace AppOcorrencias.Services
         public int id { get; set; }
         [JsonPropertyName("nome")]
         public string nome { get; set; }
+        [JsonPropertyName("token")]
+        public string token { get; set; } // 🔹 caso venha dentro do objeto "usuario"
     }
 
-    // 🔹 Formato "leve" retornado pela lista (sem id no querystring)
     public class OcorrenciaApiListItem
     {
         [JsonPropertyName("id")] public int Id { get; set; }
@@ -202,7 +225,6 @@ namespace AppOcorrencias.Services
         [JsonPropertyName("conselheiro")] public string ConselheiroNome { get; set; }
     }
 
-    // 🔹 Formato completo retornado por ?id=X
     public class OcorrenciaApiItem
     {
         [JsonPropertyName("id")] public int Id { get; set; }
