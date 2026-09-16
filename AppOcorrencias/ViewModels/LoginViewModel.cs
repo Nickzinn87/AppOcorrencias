@@ -60,7 +60,7 @@ namespace AppOcorrencias.ViewModels
 
                 // 🚀 navegação
                 //Application.Current.MainPage = new NavigationPage(new pgNovaOcorrencia());
-                await Shell.Current.GoToAsync("//nova");
+                await Shell.Current.GoToAsync("//home");
             }
             else
             {

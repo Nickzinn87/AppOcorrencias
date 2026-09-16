@@ -72,6 +72,9 @@
 	  <MauiXaml Update="Views\pgAssinatura.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\pgHome.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\pgLogin.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

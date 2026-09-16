@@ -1,0 +1,111 @@
+<views:BasePage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AppOcorrencias.Views"
+    x:Class="AppOcorrencias.Views.pgHome">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0B0D26" Offset="0.0"/>
+            <GradientStop Color="#161B45" Offset="0.5"/>
+            <GradientStop Color="#0B0D26" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <!-- Cabecalho -->
+            <VerticalStackLayout Spacing="2" Margin="0,10,0,0">
+                <Label
+                    Text="PAINEL DE CONTROLE"
+                    TextColor="#8B92C9"
+                    FontSize="11"
+                    CharacterSpacing="2"
+                    FontAttributes="Bold"/>
+                <Label Text="{Binding NomeUsuario, StringFormat='Olá, {0}'}" TextColor="White" FontSize="26" FontAttributes="Bold"/>
+                <Label Text="Bem-vindo de volta" TextColor="#8B92C9" FontSize="13"/>
+            </VerticalStackLayout>
+
+            <!-- Cards de resumo -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+
+                <Border Grid.Column="0" BackgroundColor="#141833" Stroke="#2A2F5C" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="16">
+                    <Border.Shadow>
+                        <Shadow Brush="#5B6EF5" Offset="0,4" Radius="14" Opacity="0.12"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="⏳" FontSize="22"/>
+                        <Label Text="{Binding TotalPendentes}" TextColor="White" FontSize="28" FontAttributes="Bold"/>
+                        <Label Text="Pendentes" TextColor="#8B92C9" FontSize="12"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1" BackgroundColor="#141833" Stroke="#2A2F5C" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="16">
+                    <Border.Shadow>
+                        <Shadow Brush="#5B6EF5" Offset="0,4" Radius="14" Opacity="0.12"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="✅" FontSize="22"/>
+                        <Label Text="{Binding TotalEnviadas}" TextColor="White" FontSize="28" FontAttributes="Bold"/>
+                        <Label Text="Enviadas" TextColor="#8B92C9" FontSize="12"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </Grid>
+
+            <Border BackgroundColor="#141833" Stroke="#2A2F5C" StrokeThickness="1" StrokeShape="RoundRectangle 16" Padding="16">
+                <Border.Shadow>
+                    <Shadow Brush="#5B6EF5" Offset="0,4" Radius="14" Opacity="0.12"/>
+                </Border.Shadow>
+                <Grid ColumnDefinitions="Auto,*">
+                    <Label Grid.Column="0" Text="📋" FontSize="22" VerticalOptions="Center"/>
+                    <VerticalStackLayout Grid.Column="1" Margin="12,0,0,0" VerticalOptions="Center">
+                        <Label Text="{Binding TotalGeral}" TextColor="White" FontSize="20" FontAttributes="Bold"/>
+                        <Label Text="Total de ocorrências registradas por você" TextColor="#8B92C9" FontSize="12"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Acoes rapidas -->
+            <Label Text="AÇÕES RÁPIDAS" TextColor="#8B92C9" FontSize="11" CharacterSpacing="2" FontAttributes="Bold" Margin="0,10,0,0"/>
+
+            <Border StrokeShape="RoundRectangle 14" Stroke="Transparent" HeightRequest="56">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8B5CF6" Offset="0.0"/>
+                        <GradientStop Color="#3B82F6" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Button
+                    Text="＋  Nova Ocorrência"
+                    Command="{Binding OpenNova}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    BorderWidth="0"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 14" Stroke="#2A2F5C" StrokeThickness="1" BackgroundColor="#141833" HeightRequest="56">
+                <Button
+                    Text="📋  Minhas Ocorrências"
+                    Command="{Binding OpenMeus}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    BorderWidth="0"/>
+            </Border>
+
+            <Border StrokeShape="RoundRectangle 14" Stroke="#2A2F5C" StrokeThickness="1" BackgroundColor="#141833" HeightRequest="56" Margin="0,0,0,24">
+                <Button
+                    Text="🔄  Sincronizar"
+                    Command="{Binding OpenSync}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    BorderWidth="0"/>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</views:BasePage>

@@ -22,5 +22,8 @@
     <ShellContent
         Route="minhas"
         ContentTemplate="{DataTemplate views:pgMinhasOcorrencias}" />
+    <ShellContent
+        Route="home"
+        ContentTemplate="{DataTemplate views:pgHome}" />
 
 </Shell>

@@ -28,6 +28,7 @@ namespace AppOcorrencias.ViewModels
         public ICommand OpenSync { get; }
         public ICommand OpenMeus { get; }
         public ICommand LogoutCommand { get; }
+        public ICommand OpenHome { get; }
 
         public BasePageViewModel()
         {
@@ -70,6 +71,12 @@ namespace AppOcorrencias.ViewModels
 
                 // 🔹 troca a página raiz pro login, limpando toda a pilha de navegação
                 await Shell.Current.GoToAsync("//login");
+            });
+
+            OpenHome = new Command(async () =>
+            {
+                MenuAberto = false;
+                await Shell.Current.GoToAsync("//home");
             });
         }
 

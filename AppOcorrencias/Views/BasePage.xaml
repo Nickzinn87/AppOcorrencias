@@ -114,7 +114,7 @@
                                 HeightRequest="22"
                                 Aspect="AspectFit"
                                 BackgroundColor="Transparent"
-                                Command="{TemplateBinding BindingContext.ToggleMenuCommand}"/>
+                                Command="{TemplateBinding BindingContext.OpenHome}"/>
                         </Border>
 
                         <Border
