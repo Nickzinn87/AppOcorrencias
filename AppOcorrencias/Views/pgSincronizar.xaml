@@ -1,14 +1,120 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                xmlns:views="clr-namespace:AppOcorrencias.Views"
-                x:Class="AppOcorrencias.Views.pgSincronizar"
-                BackgroundColor="#4850A3"
-                Title="pgSincronizar">
-    <VerticalStackLayout>
-        <Label 
-            Text="Sincronizar"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<views:BasePage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AppOcorrencias.Views"
+    x:Class="AppOcorrencias.Views.pgSincronizar">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0B0D26" Offset="0.0"/>
+            <GradientStop Color="#161B45" Offset="0.5"/>
+            <GradientStop Color="#0B0D26" Offset="1.0"/>
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="2" Margin="0,10,0,16">
+            <Label
+                Text="SINCRONIZAÇÃO"
+                TextColor="#8B92C9"
+                FontSize="11"
+                CharacterSpacing="2"
+                FontAttributes="Bold"/>
+            <Label Text="Enviar ocorrências pendentes" TextColor="White" FontSize="22" FontAttributes="Bold"/>
+        </VerticalStackLayout>
+
+        <!-- AVISO SEM INTERNET -->
+        <Border
+            Grid.Row="1"
+            IsVisible="{Binding SemInternet}"
+            BackgroundColor="#2A1420"
+            Stroke="#5C2A3A"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 12"
+            Padding="14"
+            Margin="0,0,0,16">
+            <Label Text="⚠️ Sem conexão com a internet. Conecte-se para sincronizar." TextColor="#F28B9C" FontSize="13"/>
+        </Border>
+
+        <!-- BOTÃO SINCRONIZAR -->
+        <Border
+            Grid.Row="1"
+            IsVisible="{Binding SemInternet, Converter={StaticResource InverseBoolConverter}}"
+            StrokeShape="RoundRectangle 14"
+            Stroke="Transparent"
+            HeightRequest="56"
+            Margin="0,0,0,16">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#8B5CF6" Offset="0.0"/>
+                    <GradientStop Color="#3B82F6" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Button
+                Text="{Binding Sincronizando, Converter={StaticResource SincronizandoTextoConverter}}"
+                Command="{Binding SincronizarCommand}"
+                IsEnabled="{Binding Sincronizando, Converter={StaticResource InverseBoolConverter}}"
+                BackgroundColor="Transparent"
+                TextColor="White"
+                FontAttributes="Bold"
+                BorderWidth="0"/>
+        </Border>
+
+        <RefreshView Grid.Row="2" Command="{Binding AtualizarCommand}" IsRefreshing="{Binding Carregando}">
+            <ScrollView>
+                <VerticalStackLayout Spacing="10">
+
+                    <VerticalStackLayout IsVisible="{Binding SemPendentes}" Padding="0,60,0,0" Spacing="8">
+                        <Label Text="✅" FontSize="42" HorizontalOptions="Center"/>
+                        <Label
+                            Text="Tudo sincronizado!"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalOptions="Center"/>
+                        <Label
+                            Text="Nenhuma ocorrência pendente"
+                            TextColor="#8B92C9"
+                            FontSize="13"
+                            HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+
+                    <CollectionView ItemsSource="{Binding Pendentes}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border
+                                    BackgroundColor="#141833"
+                                    Stroke="#2A2F5C"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 14"
+                                    Padding="14"
+                                    Margin="0,4">
+
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                            <Label Text="{Binding Natureza}" TextColor="White" FontAttributes="Bold" FontSize="15"/>
+                                            <Label Text="{Binding Local}" TextColor="#8B92C9" FontSize="12"/>
+                                        </VerticalStackLayout>
+
+                                        <Border
+                                            Grid.Column="1"
+                                            VerticalOptions="Center"
+                                            BackgroundColor="{Binding StatusCor}"
+                                            StrokeShape="RoundRectangle 20"
+                                            Stroke="Transparent"
+                                            Padding="10,4">
+                                            <Label Text="{Binding Status}" TextColor="White" FontSize="11" FontAttributes="Bold"/>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+
+    </Grid>
 </views:BasePage>

@@ -1,9 +1,13 @@
-namespace AppOcorrencias.Views;
+using AppOcorrencias.ViewModels;
 
-public partial class pgSincronizar
+namespace AppOcorrencias.Views
 {
-	public pgSincronizar()
-	{
-		InitializeComponent();
-	}
+    public partial class pgSincronizar : BasePage
+    {
+        public pgSincronizar()
+        {
+            InitializeComponent();
+            BindingContext = new SincronizarViewModel();
+        }
+    }
 }

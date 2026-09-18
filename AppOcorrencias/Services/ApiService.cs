@@ -47,7 +47,7 @@ namespace AppOcorrencias.Services
                     return null;
 
                 var json = await response.Content.ReadAsStringAsync();
-                System.Diagnostics.Debug.WriteLine($"[LOGIN] JSON: {json}");
+                System.Diagnostics.Debug.WriteLine($"[LOGIN] Resposta: {json}");
 
                 var result = JsonSerializer.Deserialize<LoginResponse>(json);
                 if (result != null && result.usuario != null)
@@ -180,6 +180,7 @@ namespace AppOcorrencias.Services
                 };
 
                 var json = JsonSerializer.Serialize(payload);
+                System.Diagnostics.Debug.WriteLine($"[API SALVAR OCORRENCIA] Enviando: {json}");
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _http.PostAsync("ocorrencias.php", content);
 

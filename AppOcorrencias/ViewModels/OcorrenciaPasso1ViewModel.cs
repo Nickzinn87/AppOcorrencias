@@ -57,9 +57,12 @@ namespace AppOcorrencias.ViewModels
 
             ProximoCommand = new Command(async () =>
             {
-                if (string.IsNullOrWhiteSpace(Natureza) || string.IsNullOrWhiteSpace(Local))
+                if (string.IsNullOrWhiteSpace(Natureza) ||
+                    string.IsNullOrWhiteSpace(Local) ||
+                    string.IsNullOrWhiteSpace(Hora) ||
+                    string.IsNullOrWhiteSpace(Solicitante))
                 {
-                    await Shell.Current.DisplayAlert("Atenção", "Preencha ao menos Natureza e Local da ocorrência.", "OK");
+                    await Shell.Current.DisplayAlert("Atenção", "Preencha Natureza, Local, Hora e Solicitante da ocorrência.", "OK");
                     return;
                 }
 
