@@ -55,5 +55,7 @@ namespace AppOcorrencias.Models
         public int ConselheiroId { get; set; } // 🔹 Id do usuário logado no servidor (conselheiro)
         public bool Sincronizado { get; set; } = false;
         public DateTime CriadoEm { get; set; } = DateTime.Now;
+
+        public string UltimoErro { get; set; } // motivo da última falha de envio/validação
     }
 }

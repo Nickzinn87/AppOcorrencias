@@ -78,7 +78,9 @@ namespace AppOcorrencias.ViewModels
 
             ProximoCommand = new Command(async () =>
             {
-                // 🔹 endereços são opcionais (nem toda ocorrência tem os dois preenchidos)
+                var o = NovaOcorrenciaSingleton.Instance.OcorrenciaAtual;
+                if (await OcorrenciaValidator.BloquearSeInvalidoAsync(OcorrenciaValidator.ValidarPasso4(o))) return;
+
                 await Shell.Current.Navigation.PushAsync(new pgOcorrenciaPasso5());
             });
         }

@@ -52,20 +52,30 @@ namespace AppOcorrencias.Services
                     var adolescentes = await _db.GetAdolescentesAsync(ocorrencia.Uid);
                     var envolvidos = await _db.GetEnvolvidosAsync(ocorrencia.Uid);
 
+                    // nao adianta nem chamar a API se os dados ja estao incompletos
+                    var erros = OcorrenciaValidator.ValidarCompleta(ocorrencia, adolescentes, envolvidos.Count(p => p.Assinado));
+                    if (erros.Count > 0)
+                    {
+                        ocorrencia.UltimoErro = "Dados incompletos: " + string.Join(" ", erros);
+                        await _db.SalvarOcorrenciaAsync(ocorrencia);
+
+                        onStatusAtualizado?.Invoke(ocorrencia, "Falhou");
+                        falhas++;
+                        continue;
+                    }
+
                     var assinaturaConselheiro = await ObterBase64Async(envolvidos, "Conselheiro Responsável");
                     var assinaturaResponsavel = await ObterBase64Async(envolvidos, "Pai/Mãe ou Responsável");
                     var assinaturaSolicitante = await ObterBase64Async(envolvidos, "Solicitante");
 
-                    var (sucesso, _) = await _api.SalvarOcorrenciaAsync(
-                        ocorrencia,
-                        adolescentes,
-                        assinaturaConselheiro,
-                        assinaturaResponsavel,
-                        assinaturaSolicitante);
+                    var (sucesso, resposta) = await _api.SalvarOcorrenciaAsync(
+                        ocorrencia, adolescentes,
+                        assinaturaConselheiro, assinaturaResponsavel, assinaturaSolicitante);
 
                     if (sucesso)
                     {
                         ocorrencia.Sincronizado = true;
+                        ocorrencia.UltimoErro = null;
                         await _db.SalvarOcorrenciaAsync(ocorrencia);
 
                         onStatusAtualizado?.Invoke(ocorrencia, "Enviada");
@@ -73,12 +83,18 @@ namespace AppOcorrencias.Services
                     }
                     else
                     {
+                        ocorrencia.UltimoErro = ApiService.ExtrairMensagem(resposta);
+                        await _db.SalvarOcorrenciaAsync(ocorrencia);
+
                         onStatusAtualizado?.Invoke(ocorrencia, "Falhou");
                         falhas++;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    ocorrencia.UltimoErro = ex.Message;
+                    await _db.SalvarOcorrenciaAsync(ocorrencia);
+
                     onStatusAtualizado?.Invoke(ocorrencia, "Falhou");
                     falhas++;
                 }

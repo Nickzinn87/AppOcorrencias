@@ -196,6 +196,20 @@ namespace AppOcorrencias.Services
                 return (false, ex.Message);
             }
         }
+
+        // Pega o campo "mensagem" do JSON de erro do servidor (ou devolve o texto bruto)
+        public static string ExtrairMensagem(string respostaBruta)
+        {
+            try
+            {
+                using var doc = JsonDocument.Parse(respostaBruta);
+                if (doc.RootElement.TryGetProperty("mensagem", out var m))
+                    return m.GetString();
+            }
+            catch { }
+
+            return respostaBruta;
+        }
     }
 
     public class LoginResponse

@@ -84,17 +84,8 @@ namespace AppOcorrencias.ViewModels
 
             ProximoCommand = new Command(async () =>
             {
-                var ocorrencia = NovaOcorrenciaSingleton.Instance.OcorrenciaAtual;
-
-                bool temMae = !string.IsNullOrWhiteSpace(ocorrencia.MaeNome);
-                bool temPai = !string.IsNullOrWhiteSpace(ocorrencia.PaiNome);
-                bool temResponsavel = !string.IsNullOrWhiteSpace(ocorrencia.ResponsavelNome);
-
-                if (!temMae && !temPai && !temResponsavel)
-                {
-                    await Shell.Current.DisplayAlert("Atenção", "Preencha ao menos um: Mãe, Pai ou Responsável.", "OK");
-                    return;
-                }
+                var o = NovaOcorrenciaSingleton.Instance.OcorrenciaAtual;
+                if (await OcorrenciaValidator.BloquearSeInvalidoAsync(OcorrenciaValidator.ValidarPasso3(o))) return;
 
                 await Shell.Current.Navigation.PushAsync(new pgOcorrenciaPasso4());
             });

@@ -57,14 +57,8 @@ namespace AppOcorrencias.ViewModels
 
             ProximoCommand = new Command(async () =>
             {
-                if (string.IsNullOrWhiteSpace(Natureza) ||
-                    string.IsNullOrWhiteSpace(Local) ||
-                    string.IsNullOrWhiteSpace(Hora) ||
-                    string.IsNullOrWhiteSpace(Solicitante))
-                {
-                    await Shell.Current.DisplayAlert("Atenção", "Preencha Natureza, Local, Hora e Solicitante da ocorrência.", "OK");
-                    return;
-                }
+                var o = NovaOcorrenciaSingleton.Instance.OcorrenciaAtual;
+                if (await OcorrenciaValidator.BloquearSeInvalidoAsync(OcorrenciaValidator.ValidarPasso1(o))) return;
 
                 await Shell.Current.Navigation.PushAsync(new pgOcorrenciaPasso2());
             });

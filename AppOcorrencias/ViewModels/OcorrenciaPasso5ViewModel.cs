@@ -103,17 +103,15 @@ namespace AppOcorrencias.ViewModels
             ConcluirCommand = new Command(async () =>
             {
                 var ocorrencia = NovaOcorrenciaSingleton.Instance.OcorrenciaAtual;
+                var adolescentes = NovaOcorrenciaSingleton.Instance.Adolescentes;
 
-                if (string.IsNullOrWhiteSpace(ocorrencia.Natureza))
-                {
-                    await Shell.Current.DisplayAlert("Atenção", "A ocorrência ficou sem Natureza preenchida. Volte ao Passo 1 e corrija.", "OK");
-                    return;
-                }
+                // validacao completa ANTES de salvar qualquer coisa
+                var erros = OcorrenciaValidator.ValidarCompleta(ocorrencia, adolescentes, Assinantes.Count(a => a.Assinado));
+                if (await OcorrenciaValidator.BloquearSeInvalidoAsync(erros, "Corrija antes de concluir")) return;
 
-                // 🔹 salva tudo localmente primeiro (garante que nada se perde, mesmo se a API falhar)
                 await _db.SalvarOcorrenciaAsync(ocorrencia);
 
-                foreach (var adolescente in NovaOcorrenciaSingleton.Instance.Adolescentes)
+                foreach (var adolescente in adolescentes)
                 {
                     adolescente.OcorrenciaUid = ocorrencia.Uid;
                     await _db.SalvarAdolescenteAsync(adolescente);
@@ -125,8 +123,7 @@ namespace AppOcorrencias.ViewModels
                     await _db.SalvarEnvolvidoAsync(envolvido);
                 }
 
-                // 🔹 tenta enviar pra API se tiver internet
-                bool enviado = false;
+                string mensagem;
 
                 if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
                 {
@@ -136,28 +133,31 @@ namespace AppOcorrencias.ViewModels
 
                     var api = new ApiService();
                     var (sucesso, resposta) = await api.SalvarOcorrenciaAsync(
-                        ocorrencia,
-                        NovaOcorrenciaSingleton.Instance.Adolescentes,
-                        assinaturaConselheiro,
-                        assinaturaResponsavel,
-                        assinaturaSolicitante);
+                        ocorrencia, adolescentes,
+                        assinaturaConselheiro, assinaturaResponsavel, assinaturaSolicitante);
 
                     if (sucesso)
                     {
                         ocorrencia.Sincronizado = true;
-                        await _db.SalvarOcorrenciaAsync(ocorrencia); // 🔹 atualiza o status local pra "Enviada"
-                        enviado = true;
+                        ocorrencia.UltimoErro = null;
+                        await _db.SalvarOcorrenciaAsync(ocorrencia);
+                        mensagem = "Ocorrência registrada e enviada com sucesso!";
+                    }
+                    else
+                    {
+                        ocorrencia.UltimoErro = ApiService.ExtrairMensagem(resposta);
+                        await _db.SalvarOcorrenciaAsync(ocorrencia);
+                        mensagem = $"Salva no aparelho, mas o servidor recusou o envio:\n{ocorrencia.UltimoErro}";
                     }
                 }
+                else
+                {
+                    mensagem = "Ocorrência salva localmente. Será enviada quando houver conexão.";
+                }
 
-                var mensagem = enviado
-                    ? "Ocorrência registrada e enviada com sucesso!"
-                    : "Ocorrência salva localmente. Será enviada quando houver conexão.";
-
-                await Shell.Current.DisplayAlert("Sucesso", mensagem, "OK");
+                await Shell.Current.DisplayAlert("Resultado", mensagem, "OK");
 
                 NovaOcorrenciaSingleton.Instance.Limpar();
-
                 await Shell.Current.Navigation.PopToRootAsync();
             });
         }

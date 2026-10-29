@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using AppOcorrencias.Models;
 using AppOcorrencias.Services;
+using AppOcorrencias.Views;
 
 namespace AppOcorrencias.ViewModels
 {
@@ -39,6 +40,11 @@ namespace AppOcorrencias.ViewModels
             set { _semInternet = value; OnPropertyChanged(); }
         }
 
+
+        readonly WebDBService _db = new WebDBService();
+
+        public ICommand AbrirCommand { get; }
+        public ICommand DescartarCommand { get; }
         public ICommand SincronizarCommand { get; }
         public ICommand AtualizarCommand { get; }
 
@@ -49,6 +55,27 @@ namespace AppOcorrencias.ViewModels
             AtualizarCommand = new Command(async () => await CarregarPendentesAsync());
 
             SincronizarCommand = new Command(async () => await SincronizarAsync());
+
+            AbrirCommand = new Command<ItemSincronizacaoView>(async (item) =>
+            {
+                if (item == null) return;
+                await Shell.Current.Navigation.PushAsync(new pgVisualizarOcorrencia(item.Ocorrencia.Uid));
+            });
+
+            DescartarCommand = new Command<ItemSincronizacaoView>(async (item) =>
+            {
+                if (item == null) return;
+
+                bool ok = await Shell.Current.DisplayAlert(
+                    "Descartar ocorrência",
+                    "Isso apaga a ocorrência deste aparelho e não pode ser desfeito. Continuar?",
+                    "Descartar", "Cancelar");
+
+                if (!ok) return;
+
+                await _db.DeletarOcorrenciaCompletaAsync(item.Ocorrencia.Uid);
+                await CarregarPendentesAsync();
+            });
 
             _ = CarregarPendentesAsync();
         }
@@ -76,11 +103,13 @@ namespace AppOcorrencias.ViewModels
 
                 foreach (var ocorrencia in pendentes)
                 {
+                    bool comErro = !string.IsNullOrWhiteSpace(ocorrencia.UltimoErro);
+
                     Pendentes.Add(new ItemSincronizacaoView
                     {
                         Ocorrencia = ocorrencia,
-                        Status = "Pendente",
-                        StatusCor = "#C0392B"
+                        Status = comErro ? "Com erro" : "Pendente",
+                        StatusCor = comErro ? "#C0392B" : "#5C639C"
                     });
                 }
 
@@ -152,5 +181,8 @@ namespace AppOcorrencias.ViewModels
 
         public string Natureza => Ocorrencia.Natureza;
         public string Local => Ocorrencia.Local;
+
+        public string UltimoErro => Ocorrencia.UltimoErro;
+        public bool TemErro => !string.IsNullOrWhiteSpace(Ocorrencia.UltimoErro);
     }
 }

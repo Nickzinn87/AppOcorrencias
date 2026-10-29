@@ -40,10 +40,16 @@ namespace AppOcorrencias.ViewModels
         {
             Adolescentes = new ObservableCollection<Adolescente>(NovaOcorrenciaSingleton.Instance.Adolescentes);
 
-            AdicionarAdolescenteCommand = new Command(() =>
+            AdicionarAdolescenteCommand = new Command(async () =>
             {
                 if (string.IsNullOrWhiteSpace(NovoNome))
                     return;
+
+                if (NovaDataNascimento.Date >= DateTime.Today)
+                {
+                    await Shell.Current.DisplayAlert("Atenção", "Informe a data de nascimento do adolescente.", "OK");
+                    return;
+                }
 
                 var adolescente = new Adolescente
                 {
@@ -58,8 +64,6 @@ namespace AppOcorrencias.ViewModels
 
                 NovoNome = string.Empty;
                 NovaDataNascimento = DateTime.Now;
-                // 🔹 NÃO limpa NovaEscola — mantém pré-preenchido pro próximo adolescente,
-                // já que normalmente estudam juntos, mas continua editável
             });
 
             RemoverAdolescenteCommand = new Command<Adolescente>((adolescente) =>
@@ -76,11 +80,14 @@ namespace AppOcorrencias.ViewModels
 
             ProximoCommand = new Command(async () =>
             {
-                if (Adolescentes.Count == 0)
+                // preencheu um nome mas esqueceu de clicar em "Adicionar"
+                if (!string.IsNullOrWhiteSpace(NovoNome))
                 {
-                    await Shell.Current.DisplayAlert("Atenção", "Adicione ao menos um adolescente.", "OK");
+                    await Shell.Current.DisplayAlert("Atenção", "Você preencheu um nome mas não clicou em \"Adicionar Adolescente\".", "OK");
                     return;
                 }
+
+                if (await OcorrenciaValidator.BloquearSeInvalidoAsync(OcorrenciaValidator.ValidarAdolescentes(Adolescentes))) return;
 
                 await Shell.Current.Navigation.PushAsync(new pgOcorrenciaPasso3());
             });

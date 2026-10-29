@@ -164,5 +164,22 @@ namespace AppOcorrencias.Services
                                   .Where(a => a.OcorrenciaUid == ocorrenciaUid)
                                   .ToListAsync();
         }
+
+        // Apaga a ocorrencia e tudo que depende dela (adolescentes, envolvidos, assinaturas)
+        public async Task DeletarOcorrenciaCompletaAsync(string uid)
+        {
+            await InitAsync();
+
+            var envolvidos = await _database.Table<PessoaEnvolvida>()
+                                            .Where(p => p.OcorrenciaUid == uid)
+                                            .ToListAsync();
+
+            foreach (var e in envolvidos)
+                await _database.Table<Assinatura>().DeleteAsync(a => a.PessoaEnvolvidaId == e.Id);
+
+            await _database.Table<PessoaEnvolvida>().DeleteAsync(p => p.OcorrenciaUid == uid);
+            await _database.Table<Adolescente>().DeleteAsync(a => a.OcorrenciaUid == uid);
+            await _database.Table<Ocorrencia>().DeleteAsync(o => o.Uid == uid);
+        }
     }
 }
